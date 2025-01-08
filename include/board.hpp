@@ -14,7 +14,7 @@ public:
 
     void print_board();
     void read_move();
-    void is_move_valid();
+    bool is_move_valid();
     void test_win_condition();
 
     ~Board();
