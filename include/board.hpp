@@ -12,10 +12,11 @@ private:
 public:
     Board();
 
-    void print_board();
-    void read_move();
-    bool is_move_valid();
-    void test_win_condition();
+    virtual void print_board();
+    virtual void read_move();
+    virtual bool is_move_valid();
+    virtual void test_win_condition();
+
 
     ~Board();
 };

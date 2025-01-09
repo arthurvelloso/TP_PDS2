@@ -11,6 +11,7 @@ private:
 
     std::string name;
     std::string nickname;
+    int score;
     int victoryCount;
     int defeatCount;
 
@@ -21,6 +22,9 @@ public:
     void signup_client();
     void remove_client();
     void print_client_list();
+    void add_victory();
+    void add_defeat();
+    void add_tie();
 
     ~Client();
 };
