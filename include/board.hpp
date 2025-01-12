@@ -8,9 +8,8 @@ class Board {
 private:
 
 
-
 public:
-    Board();
+    Board(int n);
 
     virtual void print_board();
     virtual void read_move();

@@ -3,16 +3,17 @@ CC = g++
 CFLAGS = -Wall -g -Iinclude
 
 
-#directories and folders
+#directories
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 INCLUDE_DIR = include
 
 
-#files
+#where are the source files and where object files are going
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+#the main executable's files target (which is also the default target)
 TARGET = $(BIN_DIR)/games
 
 
@@ -20,21 +21,21 @@ TARGET = $(BIN_DIR)/games
 all: $(TARGET)
 
 
-#comple object files
+#command to compile object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-#compile the executable
+#command to compile the executable
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 
-#clean
+#clean object and executable files
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 
-#rebuild
+#rebuild (clean and compile again)
 rebuild: clean all
