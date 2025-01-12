@@ -4,9 +4,6 @@ using namespace std;
 
 //declaracao dos metodos de Board (em board.hpp)
 class Board {
-private:
-
-
 public:
     Board();
 
@@ -19,11 +16,25 @@ public:
 };
 
 
+//implementacao dos metodos Board (em board.cpp)
+Board::Board() {}
+
+void Board::print_board() {}
+
+void Board::read_move() {}
+
+bool Board::is_move_valid(int x) { return false; }
+
+void Board::test_win_condition(int x) {}
+
+Board::~Board() {}
+
+
 //declaracao dos metodos de Connect4 (em connect4.hpp)
 class Connect4 : public Board {
 private:
 int board[6][7];
-int column_height[6];
+int column_height[7];
 int current_player;
 bool is_game_ended;
 
@@ -43,10 +54,10 @@ public:
 
 //inicializador
 Connect4::Connect4 () {
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 7; i++) {
         column_height[i] = 5;
-        for (int j = 0; j < 7; j++) {
-            board[i][j] = 0;
+        for (int j = 0; j < 6; j++) {
+            board[j][i] = 0;
         }
     }
 
@@ -58,7 +69,7 @@ Connect4::Connect4 () {
 
 //imprimir o tabuleiro
 void Connect4::print_board() {
-    cout << " 0 1 2 3 4 5 6" << endl;
+    cout << "  0 1 2 3 4 5 6" << endl;
     for (int i = 0; i < 6; i++) {
         cout << i << " ";
         for (int j = 0; j < 7; j++) {
@@ -82,7 +93,7 @@ void Connect4::read_move() {
     int move;
     bool valid_input = false;
     while (!valid_input) {
-        cout << "It's " << (current_player == 1 ? "white" : "black") << "'s turn!" << endl;
+        cout << "It's " << (current_player == 1 ? "black" : "white") << "'s turn!" << endl;
         cout << "Enter the column you want to play (0-6)" << endl;
         cin >> move;
         if (is_move_valid(move)) {
@@ -93,7 +104,7 @@ void Connect4::read_move() {
             valid_input = true;
         }
         else {
-            cout << "That's not a valid move! Enter a column between 0 and 6 that's not filled";
+            cout << "That's not a valid move! Enter a column between 0 and 6 that's not filled" << endl;
         }
     }
 }
@@ -101,7 +112,7 @@ void Connect4::read_move() {
 
 //testar se jogada é válida
 bool Connect4::is_move_valid(int move) {
-    if(0 <= move && move < 7 && column_height[move] > 0) {
+    if(move >= 0 && move < 7 && column_height[move] >= 0) {
         return true;
     }
     else {
@@ -115,6 +126,9 @@ void Connect4::test_win_condition(int move) {
     int total = 1;
     for (int i = 0; i <= 1; i++) {
         for(int j = 0; j <= 1; j++) {
+			if (i == 0 && j == 0) {
+				j++;
+			}
             int posx = column_height[move] + i;
             int posy = move + j;
             while (board[posx][posy] == current_player && posx >= 0 && posx < 7 && posy >=0 && posy < 6) {
@@ -122,7 +136,7 @@ void Connect4::test_win_condition(int move) {
                 posx += i;
                 posy += j;
                 if (total == 4) {
-                    cout << (current_player == 1 ? "White" : "Black") << " player wins!" << endl;
+                    cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
                     is_game_ended = true;
                     return;
                 }
@@ -134,7 +148,7 @@ void Connect4::test_win_condition(int move) {
                 posx -= i;
                 posy -= j;
                 if (total == 4) {
-                    cout << (current_player == 1 ? "White" : "Black") << " player wins!" << endl;
+                    cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
                     is_game_ended = true;
                     return;
                 }
