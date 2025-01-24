@@ -9,11 +9,11 @@ private:
 
 
 public:
-    Board(int n);
+    Board();
 
     virtual void print_board();
     virtual void read_move();
-    virtual bool is_move_valid();
+    virtual bool is_move_valid(int x, int y);
     virtual void test_win_condition();
 
 
