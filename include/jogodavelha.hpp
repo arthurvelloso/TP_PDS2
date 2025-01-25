@@ -1,6 +1,4 @@
 #ifndef JOGODAVELHA_HPP
-#define REVERSI_HPP
-
 #include "board.hpp"
 
 class Jogodavelha : public Board {
