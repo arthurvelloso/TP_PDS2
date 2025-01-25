@@ -1,8 +1,15 @@
+#include "jogodavelha.hpp"
 #include <iostream>
+
 using namespace std;
 
-// Função para exibir o tabuleiro
-void display(int Board[3][3]) {
+Jogodavelha:: Jogodavelha() {
+    is_game_ended = false;
+    current_player = 1;
+    winner = 0;
+}
+
+void Jogodavelha:: print_board() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (Board[i][j] == 1) {
@@ -19,93 +26,99 @@ void display(int Board[3][3]) {
     }
 }
 
-// Função para verificar se há um vencedor
-int checkWin(int Board[3][3]) {
-    // Verifica linhas e colunas
-    for (int i = 0; i < 3; i++) {
-        int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
-        int colSum = Board[0][i] + Board[1][i] + Board[2][i];
-        if (rowSum == 3 || colSum == 3) return 1;  // Jogador 1 venceu
-        if (rowSum == -3 || colSum == -3) return -1; // Jogador 2 venceu
+void Jogodavelha:: read_move() {
+    int position;
+
+    // Pede a jogada do jogador
+    cout << "Jogador " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", escolha uma posição (1-9): ";
+    cin >> position;
+    cout << endl;
+
+    if (position < 1 || position > 9) {
+        cout << "Posição inválida! Escolha um número entre 1 e 9." << endl;
     }
 
-    // Verifica diagonais
-    int diag1 = Board[0][0] + Board[1][1] + Board[2][2];
-    int diag2 = Board[0][2] + Board[1][1] + Board[2][0];
-    if (diag1 == 3 || diag2 == 3) return 1;  // Jogador 1 venceu
-    if (diag1 == -3 || diag2 == -3) return -1; // Jogador 2 venceu
-
-    // Caso contrário, nenhum vencedor
-    return 0;
-}
-
-bool isBoardFull(int Board[3][3]) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (Board[i][j] == 0) {
-                return false; // Ainda há pelo menos uma casa vazia
-            }
-        }
-    }
-    return true; // Todas as casas estão preenchidas
-}
-
-
-// Função para atualizar o tabuleiro com a jogada do jogador
-bool makeMove(int Board[3][3], int position, int player) {
     int row = (position - 1) / 3;
     int col = (position - 1) % 3;
 
-    if (Board[row][col] == 0) {
-        Board[row][col] = player; // Atualiza com o valor do jogador
-        return true;
+    if (is_move_valid(row, col)) {
+        Board[row][col] = current_player; // Atualiza com o valor do jogador
+        current_player *= (-1); // Inverte a vez do jogador após sua jogada
+
     } else {
         cout << "POSIÇÃO OCUPADA, TENTE OUTRA" << endl;
-        return false;
+        read_move(); // Chama novamente a jogada
     }
 }
 
-int main() {
-    int Board[3][3] = {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}
-    };
+bool Jogodavelha:: is_move_valid(int x, int y) {
+    return Board[x][y] == 0; // A função simplesmente retorna o valor-verdade dessa igualdade.
+}
 
-    int currentPlayer = 1; // Jogador inicial (1 = Jogador 1, -1 = Jogador 2)
-    int position;
-    int winner = 0;
+bool Jogodavelha:: has_valid_moves() {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (Board[i][j] == 0) {
+                return true; // Ainda há pelo menos uma casa vazia
+            }
+        }
+    }
+    is_game_ended = true;
+    return false; // Todas as casas estão preenchidas
+}
 
-    while (true) {
-        display(Board);
-
-        // Verifica se há vencedor
-        winner = checkWin(Board);
-        if (winner != 0) {
-            cout << "Jogador " << (winner == 1 ? "1 (X)" : "2 (O)") << " venceu!" << endl;
-            break;
+void Jogodavelha:: test_win_condition() {
+    // Verifica se empatou
+    if (has_valid_moves() == false) {
+            is_game_ended = true;
+            ends_game();
         }
 
-            // Verifica se deu velha (empate)
-        if (isBoardFull(Board)) {
-            cout << "VELHA" << endl;
-            break;
-        }  
+    // Verifica linhas, colunas e diagonais
+    for (int i = 0; i < 3; i++) {
+        int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
+        int colSum = Board[0][i] + Board[1][i] + Board[2][i];
+        int diag1 = Board[0][0] + Board[1][1] + Board[2][2];
+        int diag2 = Board[0][2] + Board[1][1] + Board[2][0];
 
-        // Pede a jogada do jogador
-        cout << "Jogador " << (currentPlayer == 1 ? "1 (X)" : "2 (O)") << ", escolha uma posição (1-9): ";
-        cin >> position;
-        cout << endl;
-
-        if (position < 1 || position > 9) {
-            cout << "Posição inválida! Escolha um número entre 1 e 9." << endl;
-            continue;
+        if (rowSum == 3 || colSum == 3 || diag1 == 3 || diag2 == 3) {
+            is_game_ended = true;
+            winner = 1;
+            ends_game();
         }
 
-        if (makeMove(Board, position, currentPlayer)) {
-            currentPlayer *= -1; // Alterna entre jogadores multiplicando por -1.
+        if (rowSum == -3 || colSum == -3 || diag1 == -3 || diag2 == -3) {
+            is_game_ended = true;
+            winner = -1;
+            ends_game();
         }
     }
 
-    return 0;
+    // Caso contrário, nenhum vencedor e jogo segue
 }
+
+void Jogodavelha:: ends_game() {
+    if(winner == 1){
+        cout << "Jogador 1 venceu!" << endl;
+
+    } else if(winner == -1){
+        cout << "Jogador 2 venceu!" << endl;
+    }
+    else {
+        cout << "DEU VELHA" << endl;
+    }
+}
+
+void Jogodavelha:: play() {
+    while (!is_game_ended) {
+        print_board();
+        test_win_condition();
+        if (is_game_ended) {
+            break;
+        }
+        read_move();
+    }
+}
+
+Jogodavelha:: ~Jogodavelha() {}
+ 
