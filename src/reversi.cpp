@@ -1,6 +1,7 @@
 #include "reversi.hpp"
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 
 using namespace std;
 
@@ -19,22 +20,30 @@ Reversi::Reversi() {
 }
 
 bool Reversi::is_move_valid(int x, int y) {
-    if (board[x][y] == 0) {
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int posx = x + i;
-                int posy = y + j;
-                while (posx >= 0 && posx < 8 && posy >= 0 && posy < 8 && board[posx][posy] == -current_player) {
-                    posx += i;
-                    posy += j;
-                    if (board[posx][posy] == current_player) {
-                        return true;
-                    }
+
+    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+        throw invalid_argument("Coordinates must be between 0 and 7.");
+    }
+
+    if (board[x][y] != 0) {
+        throw runtime_error("Selected square is already occupied.");
+    }
+
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            int posx = x + i;
+            int posy = y + j;
+            while (posx >= 0 && posx < 8 && posy >= 0 && posy < 8 && board[posx][posy] == -current_player) {
+                posx += i;
+                posy += j;
+                if (board[posx][posy] == current_player) {
+                    return true;
                 }
             }
         }
     }
     return false;
+
 }
 
 void Reversi::print_board() {
@@ -55,53 +64,59 @@ void Reversi::print_board() {
 }
 
 void Reversi::read_move() {
-    int x, y;
     while (true) {
-        cout << "Player " << (current_player == 1 ? "White" : "Black") << "'s turn" << endl;
-        cout << "Enter row (0-7) and column (0-7) separated by space: ";
-        cin >> x >> y;
+        try {
+            cout << "Player " << (current_player == 1 ? "White" : "Black") << "'s turn" << endl;
+            cout << "Enter row (0-7) and column (0-7) separated by space: ";
+            
+            int x, y;
+            if (!(cin >> x >> y)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                throw runtime_error("Input must be two whole numbers separated by space.");
+            }
 
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Error: Input must be two whole numbers separated by space." << endl;
-            continue;
-        }
-
-        if (x < 0 || x >= 8 || y < 0 || y >= 8) {
-            cout << "Error: Coordinates must be between 0 and 7." << endl;
-            continue;
-        }
-
-        if (is_move_valid(x, y)) {
-            board[x][y] = current_player;
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    int posx = x + i;
-                    int posy = y + j;
-                    while (board[posx][posy] == -current_player && posx >= 0 && posx < 8 && posy >= 0 && posy < 8) {
-                        posx += i;
-                        posy += j;
-                        if (board[posx][posy] == current_player) {
-                            posx = x + i;
-                            posy = y + j;
-                            while (board[posx][posy] == -current_player) {
-                                board[posx][posy] = current_player;
-                                posx += i;
-                                posy += j;
+            if (is_move_valid(x, y)) {
+                board[x][y] = current_player;
+                
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int posx = x + i;
+                        int posy = y + j;
+                        while (board[posx][posy] == -current_player && posx >= 0 && posx < 8 && posy >= 0 && posy < 8) {
+                            posx += i;
+                            posy += j;
+                            if (board[posx][posy] == current_player) {
+                                posx = x + i;
+                                posy = y + j;
+                                while (board[posx][posy] == -current_player) {
+                                    board[posx][posy] = current_player;
+                                    posx += i;
+                                    posy += j;
+                                }
                             }
                         }
                     }
                 }
+                current_player = -current_player;
+                break;
             }
-            current_player = -current_player;
-            break;
-        } else {
-            cout << "Error: This is not a valid move. Ensure it captures opponent pieces." << endl;
-            continue;
+            else{
+                cout << "Error: This is not a valid move. Ensure it captures opponent pieces." << endl;
+            }
         }
+        catch (const invalid_argument& e) {
+            cout << "Input Error: " << e.what() << endl;
+        }
+        catch (const runtime_error& e) {
+            cout << "Input Error: " << e.what() << endl;
+        }
+
+        cout << "Try again." << endl;
     }
+
 }
+
 
 bool Reversi::has_valid_moves() {
     for (int i = 0; i < 8; i++) {
