@@ -1,59 +1,10 @@
+#include "connect4.hpp"
 #include <iostream>
 
 using namespace std;
 
-//declaracao dos metodos de Board (em board.hpp)
-class Board {
-public:
-    Board();
-
-    virtual void print_board();
-    virtual void read_move();
-    virtual bool is_move_valid(int x);
-    virtual void test_win_condition(int x);
-
-    ~Board();
-};
-
-
-//implementacao dos metodos Board (em board.cpp)
-Board::Board() {}
-
-void Board::print_board() {}
-
-void Board::read_move() {}
-
-bool Board::is_move_valid(int x) { return false; }
-
-void Board::test_win_condition(int x) {}
-
-Board::~Board() {}
-
-
-//declaracao dos metodos de Connect4 (em connect4.hpp)
-class Connect4 : public Board {
-private:
-int board[6][7];
-int column_height[7];
-int current_player;
-bool is_game_ended;
-
-public:
-    Connect4();
-    void print_board() override;
-    void read_move() override;
-    bool is_move_valid(int x) override;
-    void test_win_condition(int x) override;
-    bool is_there_more_moves();
-    void play();
-
-};
-
-
-//implementacao dos metodos Connect4 (em connect4.cpp)
-
-//inicializador
-Connect4::Connect4 () {
+// Inicializador
+Connect4::Connect4() {
     for (int i = 0; i < 7; i++) {
         column_height[i] = 5;
         for (int j = 0; j < 6; j++) {
@@ -63,11 +14,10 @@ Connect4::Connect4 () {
 
     current_player = 1;
     is_game_ended = false;
-};
+    last_move = -1; 
+}
 
-
-
-//imprimir o tabuleiro
+// Imprimir o tabuleiro
 void Connect4::print_board() {
     cout << "  0 1 2 3 4 5 6" << endl;
     for (int i = 0; i < 6; i++) {
@@ -75,11 +25,9 @@ void Connect4::print_board() {
         for (int j = 0; j < 7; j++) {
             if (board[i][j] == 1) {
                 cout << "B ";
-            }
-            else if (board[i][j] == -1) {
+            } else if (board[i][j] == -1) {
                 cout << "W ";
-            }
-            else {
+            } else {
                 cout << ". ";
             }
         }
@@ -87,8 +35,7 @@ void Connect4::print_board() {
     }
 }
 
-
-//realizar jogada
+// Realizar jogada
 void Connect4::read_move() {
     int move;
     bool valid_input = false;
@@ -96,42 +43,40 @@ void Connect4::read_move() {
         cout << "It's " << (current_player == 1 ? "black" : "white") << "'s turn!" << endl;
         cout << "Enter the column you want to play (0-6)" << endl;
         cin >> move;
-        if (is_move_valid(move)) {
+        if (is_move_valid(move, 0)) {
+            last_move = move;
             board[column_height[move]][move] = current_player;
-            test_win_condition(move);   //checa se o jogador acabou de vencer
+            test_win_condition();
             column_height[move]--;
             current_player = -current_player;
             valid_input = true;
-        }
-        else {
+        } else {
             cout << "That's not a valid move! Enter a column between 0 and 6 that's not filled" << endl;
         }
     }
 }
 
-
-//testar se jogada é válida
-bool Connect4::is_move_valid(int move) {
-    if(move >= 0 && move < 7 && column_height[move] >= 0) {
-        return true;
-    }
-    else {
-        return false;
-    }
+// Testar se jogada é válida
+bool Connect4::is_move_valid(int move, int y) {
+    return move >= 0 && move < 7 && column_height[move] >= 0;
 }
 
+// Testar vitória
+void Connect4::test_win_condition() {
+    int move = last_move;
+    if(move < 0 || move > 7) {
+        return;
+    }
 
-//testar vitória
-void Connect4::test_win_condition(int move) {
     int total = 1;
     for (int i = 0; i <= 1; i++) {
-        for(int j = 0; j <= 1; j++) {
-			if (i == 0 && j == 0) {
-				j++;
-			}
+        for (int j = 0; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                j++;
+            }
             int posx = column_height[move] + i;
             int posy = move + j;
-            while (board[posx][posy] == current_player && posx >= 0 && posx < 7 && posy >=0 && posy < 6) {
+            while (board[posx][posy] == current_player && posx >= 0 && posx < 7 && posy >= 0 && posy < 6) {
                 total++;
                 posx += i;
                 posy += j;
@@ -143,7 +88,7 @@ void Connect4::test_win_condition(int move) {
             }
             posx = column_height[move] - i;
             posy = move - j;
-            while (board[posx][posy] == current_player && posx >= 0 && posx < 7 && posy >=0 && posy < 6) {
+            while (board[posx][posy] == current_player && posx >= 0 && posx < 7 && posy >= 0 && posy < 6) {
                 total++;
                 posx -= i;
                 posy -= j;
@@ -158,39 +103,22 @@ void Connect4::test_win_condition(int move) {
     }
 }
 
-
-//checar se o tabuleiro ta cheio
+// Checar se o tabuleiro está cheio
 bool Connect4::is_there_more_moves() {
     int filled_columns = 0;
-    for(int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++) {
         if (column_height[i] == 6) {
             filled_columns++;
         }
     }
-
-    if(filled_columns == 6) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    return filled_columns != 6;
 }
 
-
-//iniciar um jogo
+// Iniciar um jogo
 void Connect4::play() {
     while (!is_game_ended) {
         print_board();
         read_move();
     }
     print_board();
-}
-
-
-int main() {
-
-    Connect4 game;
-    game.play();
-
-    return 0;
 }
