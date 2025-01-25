@@ -68,30 +68,31 @@ bool Jogodavelha:: has_valid_moves() {
 }
 
 void Jogodavelha:: test_win_condition() {
-    // Verifica se empatou
-    if (has_valid_moves() == false) {
-            is_game_ended = true;
-            ends_game();
-        }
 
-    // Verifica linhas, colunas e diagonais
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) { // Verifica linhas, colunas e diagonais
         int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
         int colSum = Board[0][i] + Board[1][i] + Board[2][i];
-        int diag1 = Board[0][0] + Board[1][1] + Board[2][2];
+        int diag1 = Board[0][0] + Board[1][1] + Board[2][2];            
         int diag2 = Board[0][2] + Board[1][1] + Board[2][0];
 
         if (rowSum == 3 || colSum == 3 || diag1 == 3 || diag2 == 3) {
             is_game_ended = true;
             winner = 1;
             ends_game();
+            return;
         }
 
-        if (rowSum == -3 || colSum == -3 || diag1 == -3 || diag2 == -3) {
+        if (rowSum == -3 || colSum == -3 || diag1 == -3 || diag2 == -3) {                
             is_game_ended = true;
             winner = -1;
             ends_game();
+            return;
         }
+    }
+
+    if (has_valid_moves() == false) { // Verifica se empatou
+            is_game_ended = true;
+            ends_game();
     }
 
     // Caso contrário, nenhum vencedor e jogo segue
