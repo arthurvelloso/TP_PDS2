@@ -21,12 +21,12 @@ Reversi::Reversi() {
 
 bool Reversi::is_move_valid(int x, int y) {
 
-    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
-        throw invalid_argument("Coordinates must be between 0 and 7.");
+    if (x < 0 || x >= 8 || y < 0 || y >= 8){
+        return false;
     }
 
-    if (board[x][y] != 0) {
-        throw runtime_error("Selected square is already occupied.");
+    if(board[x][y] != 0){
+        return false;
     }
 
     for (int i = -1; i <= 1; i++) {
@@ -76,6 +76,14 @@ void Reversi::read_move() {
                 throw runtime_error("Input must be two whole numbers separated by space.");
             }
 
+            if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+                throw invalid_argument("Coordinates must be between 0 and 7.");
+            }
+
+            if (board[x][y] != 0) {
+                throw out_of_range("Selected square is already occupied.");
+            }
+
             if (is_move_valid(x, y)) {
                 board[x][y] = current_player;
                 
@@ -106,6 +114,9 @@ void Reversi::read_move() {
             }
         }
         catch (const invalid_argument& e) {
+            cout << "Input Error: " << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
             cout << "Input Error: " << e.what() << endl;
         }
         catch (const runtime_error& e) {
