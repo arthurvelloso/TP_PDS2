@@ -1,7 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
-#include <sstream>
-#include "velha.hpp" // Inclua o arquivo de cabeçalho da classe
+#include "jogodavelha.hpp" // Inclua o arquivo de cabeçalho da classe
 
 TEST_CASE("Jogodavelha - Teste do método is_move_valid") {
     Jogodavelha jogo;
