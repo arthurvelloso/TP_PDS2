@@ -18,11 +18,19 @@ TEST_CASE("Testando o método is_move_valid") {
     }
 
     SUBCASE("Jogada em uma posição já ocupada") {
-        CHECK_THROWS_AS(game.is_move_valid(3, 3), std::runtime_error); // Posição ocupada por peça branca
+        CHECK_THROWS_AS(game.is_move_valid(3, 3), std::runtime_error); // Posição ocupada por peça
     }
 
     SUBCASE("Jogada sem capturar peças do oponente") {
         CHECK(game.is_move_valid(0, 0) == false); // Não captura nenhuma peça
         CHECK(game.is_move_valid(7, 7) == false); // Não captura nenhuma peça
+    }
+}
+
+TEST_CASE("Testando o método has_valid_moves") {
+    Reversi game;
+
+    SUBCASE("Tabuleiro inicial com jogadas válidas disponíveis") {
+        CHECK(game.has_valid_moves() == true); // Existem jogadas válidas
     }
 }
