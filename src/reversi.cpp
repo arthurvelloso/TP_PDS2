@@ -183,4 +183,19 @@ void Reversi::play() {
     }
 }
 
+bool Reversi::get_is_game_ended() {
+    return is_game_ended;
+}
+
+int Reversi::get_current_player() {
+    return current_player;
+}
+
+int Reversi::get_board(int x, int y) {
+    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+        throw std::invalid_argument("Coordinates must be between 0 and 7.");
+    }
+    return board[x][y];
+}
+
 Reversi::~Reversi() {}
