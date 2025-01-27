@@ -1,25 +1,26 @@
 #include <iostream>
 #include <fstream>
-#define FILE_NAME "TP_PDS2/users/users.txt"
+#define FILE_NAME "users/users.txt"
+#define TEMP_NAME "users/temp.txt"
 
 
 bool search_client(std::string nick) {
     std::ifstream userFile(FILE_NAME);
     std::string search;
-    std::string object = "Nickname: ";
-    object.append(nick);
+    std::string comp = "Nickname: ";
+    comp.append(nick);
 
     while ( !userFile.eof() ) {
         getline(userFile, search);
 
-        if ( search == object ) {
+        if ( search == comp ) {
             userFile.close();
             return true;
         }
     }
 
     userFile.close();
-    return 0;
+    return false;
 }
 
 
@@ -72,7 +73,7 @@ void remove_client() {
     
 
     std::ofstream temp;
-    temp.open("TP_PDS2/users/temp.txt");
+    temp.open(TEMP_NAME);
 
     while ( getline(userFile, line) ) {
         if(line != deleteLine) {
@@ -88,7 +89,7 @@ void remove_client() {
     userFile.close();
     temp.close();
     remove(FILE_NAME);
-    rename("TP_PDS2/users/temp.txt", FILE_NAME);
+    rename(TEMP_NAME, FILE_NAME);
 }
 
 
@@ -100,6 +101,7 @@ void print_client_list() {
     while ( getline(userFile, line) ) {
         std::cout << line << std::endl;
     }
+    userFile.close();
 }
 
 
@@ -111,7 +113,7 @@ void add_victory(std::string nick) {
     comp.append(nick);
 
     std::ofstream temp;
-    temp.open("TP_PDS2/users/temp.txt");
+    temp.open(TEMP_NAME);
 
     do {
         getline(userFile, line);
@@ -133,7 +135,7 @@ void add_victory(std::string nick) {
     userFile.close();
     temp.close();
     remove(FILE_NAME);
-    rename("TP_PDS2/users/temp.txt", FILE_NAME);
+    rename(TEMP_NAME, FILE_NAME);
 }
 
 
@@ -145,7 +147,7 @@ void add_tie(std::string nick) {
     comp.append(nick);
 
     std::ofstream temp;
-    temp.open("TP_PDS2/users/temp.txt");
+    temp.open(TEMP_NAME);
 
     do {
         getline(userFile, line);
@@ -168,7 +170,7 @@ void add_tie(std::string nick) {
     userFile.close();
     temp.close();
     remove(FILE_NAME);
-    rename("TP_PDS2/users/temp.txt", FILE_NAME);
+    rename(TEMP_NAME, FILE_NAME);
 }
 
 
@@ -180,7 +182,7 @@ void add_defeat(std::string nick) {
     comp.append(nick);
 
     std::ofstream temp;
-    temp.open("TP_PDS2/users/temp.txt");
+    temp.open(TEMP_NAME);
 
     do {
         getline(userFile, line);
@@ -204,5 +206,5 @@ void add_defeat(std::string nick) {
     userFile.close();
     temp.close();
     remove(FILE_NAME);
-    rename("TP_PDS2/users/temp.txt", FILE_NAME);
+    rename(TEMP_NAME, FILE_NAME);
 }
