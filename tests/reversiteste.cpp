@@ -1,10 +1,35 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-
 #include "reversi.hpp"
 
-TEST_CASE("Construtor") {
+class InputSimulator {
+private:
+    std::streambuf* originalCin;
+    std::streambuf* originalCout;
+    std::stringstream simulatedInput;
+    std::stringstream simulatedOutput;
+
+public:
+    InputSimulator(const std::string& input) {
+        originalCin = std::cin.rdbuf();
+        originalCout = std::cout.rdbuf();
+        simulatedInput.str(input);
+        std::cin.rdbuf(simulatedInput.rdbuf());
+        std::cout.rdbuf(simulatedOutput.rdbuf());
+    }
+
+    ~InputSimulator() {
+        std::cin.rdbuf(originalCin);
+        std::cout.rdbuf(originalCout);
+    }
+
+    std::string getOutput() {
+        return simulatedOutput.str();
+    }
+};
+
+TEST_CASE("Testando o construtor") {
         Reversi game;
         
         CHECK(game.get_board(3, 3) == 1); 
@@ -29,6 +54,79 @@ TEST_CASE("Construtor") {
         CHECK(game.get_is_game_ended() == false);
     }
 
+TEST_CASE("Testando o método read_move") {
+    SUBCASE("Input valido") {
+        Reversi game;
+        InputSimulator sim("2 3\n");
+        game.read_move();
+        
+        // Confere se jogada foi feita corretamente
+        CHECK(game.get_board(2, 3) == -1);
+        CHECK(game.get_current_player() == 1);
+    }
+
+    SUBCASE("Jogada nao numerica") {
+        Reversi game;
+        InputSimulator sim("ab cd\n2 3\n");
+        game.read_move();
+        
+        //Confere mensagem de erro
+        std::string output = sim.getOutput();
+        CHECK(output.find("Input Error") != std::string::npos);
+    }
+
+    SUBCASE("Jogada fora do tabuleiro") {
+        Reversi game;
+        InputSimulator sim("8 8\n2 3\n");
+        game.read_move();
+        
+        //Confere mensagem de erro
+        std::string output = sim.getOutput();
+        CHECK(output.find("Coordinates must be between 0 and 7") != std::string::npos);
+    }
+
+    SUBCASE("Jogada em espaco ocupado") {
+        Reversi game;
+        InputSimulator sim("3 3\n2 3\n");
+        game.read_move();
+        
+        //Confere mensagem de erro
+        std::string output = sim.getOutput();
+        CHECK(output.find("Selected square is already occupied") != std::string::npos);
+    }
+
+    SUBCASE("Jogada invalida - nao captura pecas") {
+        Reversi game;
+        InputSimulator sim("0 0\n2 3\n");
+        game.read_move();
+        
+        //Confere mensagem de erro
+        std::string output = sim.getOutput();
+        CHECK(output.find("This is not a valid move") != std::string::npos);
+    }
+
+    SUBCASE("Varias jogadas invalidas antes de jogada valida") {
+        Reversi game;
+        InputSimulator sim("ab cd\n9 9\n3 3\n0 0\n2 3\n");
+        game.read_move();
+        
+        //Confere se jogada foi feita corretamente
+        CHECK(game.get_board(2, 3) == -1);
+        CHECK(game.get_current_player() == 1);
+    }
+
+    SUBCASE("Varias jogadas validas") {
+        Reversi game;
+        InputSimulator sim("2 3\n4 2\n");
+        game.read_move();
+        game.read_move();
+        
+        //Confere se jogada foi feita corretamente
+        CHECK(game.get_board(2, 3) == -1);
+        CHECK(game.get_board(4, 2) == 1);
+    }
+}
+
 TEST_CASE("Testando o método is_move_valid") {
     Reversi game;
 
@@ -49,6 +147,7 @@ TEST_CASE("Testando o método has_valid_moves") {
     SUBCASE("Tabuleiro inicial com jogadas válidas disponíveis") {
         CHECK(game.has_valid_moves() == true); // Existem jogadas válidas
     }
+
 }
 
 TEST_CASE("Testando o método ends_game") {
