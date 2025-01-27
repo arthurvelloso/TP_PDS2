@@ -22,6 +22,9 @@ public:
     void test_win_condition() override;
     void ends_game();
     void play();
+    bool get_is_game_ended();
+    int get_current_player();
+    int get_board(int x, int y);
 
     ~Tictactoe();
 };
