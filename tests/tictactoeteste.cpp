@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
-#include "jogodavelha.hpp" // Inclua o arquivo de cabeçalho da classe
+#include "tictactoe.hpp" // Inclua o arquivo de cabeçalho da classe
 
-TEST_CASE("Jogodavelha - Teste do método is_move_valid") {
-    Jogodavelha jogo;
+TEST_CASE("Tictactoe - Teste do método is_move_valid") {
+    Tictactoe jogo;
 
     SUBCASE("Tabuleiro vazio - Todas as posições são válidas") {
         for (int i = 0; i < 3; i++) {
