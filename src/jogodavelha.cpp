@@ -33,7 +33,7 @@ void Jogodavelha::read_move() {
 
     try {
         // Pede a jogada do jogador
-        cout << "Jogador " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", escolha uma posição (1-9): ";
+        cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", choose one position (1-9): ";
         cin >> position;
         cout << endl;
 
@@ -41,12 +41,12 @@ void Jogodavelha::read_move() {
         if (cin.fail()) {
             cin.clear(); // Limpa o estado de erro do cin
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descartar a entrada inválida
-            throw std::invalid_argument("Entrada inválida! Por favor, insira um número inteiro entre 1 e 9.");
+            throw std::invalid_argument("Invalid input! Please, your number must be a number");
         }
 
         // Verifica se a posição está fora dos limites válidos
         if (position < 1 || position > 9) {
-            throw std::out_of_range("Posição inválida! Escolha um número entre 1 e 9.");
+            throw std::out_of_range("Invalid! Please, type a number between 1 e 9.");
         }
 
         // Converte a posição para índices de linha e coluna
@@ -55,7 +55,7 @@ void Jogodavelha::read_move() {
 
         // Verifica se a jogada é válida
         if (!is_move_valid(row, col)) {
-            throw std::invalid_argument("POSIÇÃO OCUPADA, TENTE OUTRA");
+            throw std::invalid_argument("OCCUPED POSITION, TRY AGAIN");
         }
 
         // Atualiza o tabuleiro com o valor do jogador atual
@@ -73,11 +73,6 @@ void Jogodavelha::read_move() {
         // Trata a exceção de posição ocupada
         cout << e.what() << endl;
         read_move(); // Solicita outra jogada
-    } catch (...) {
-        // Tratamento genérico para exceções inesperadas
-        cout << "Ocorreu um erro inesperado. Tente novamente." << endl;
-        read_move(); // Solicita outra jogada
-    }
 }
 
 
@@ -130,10 +125,10 @@ void Jogodavelha:: test_win_condition() {
 
 void Jogodavelha:: ends_game() {
     if(winner == 1){
-        cout << "Jogador 1 venceu!" << endl;
+        cout << "Player 1 won!" << endl;
 
     } else if(winner == -1){
-        cout << "Jogador 2 venceu!" << endl;
+        cout << "Player 2 won!" << endl;
     }
     else {
         cout << "DEU VELHA" << endl;
