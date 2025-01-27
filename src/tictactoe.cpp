@@ -73,7 +73,8 @@ void Tictactoe::read_move() {
         // Trata a exceção de posição ocupada
         cout << e.what() << endl;
         read_move(); // Solicita outra jogada  
-    }
+    }    
+}
 
 bool Tictactoe:: is_move_valid(int x, int y) {
     return Board[x][y];
