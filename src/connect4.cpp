@@ -154,3 +154,18 @@ void Connect4::play() {
     }
     print_board();
 }
+
+bool Connect4::get_is_game_ended() {
+    return is_game_ended;
+}
+
+int Connect4::get_current_player() {
+    return current_player;
+}
+
+int Connect4::get_board(int x, int y) {
+    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+        throw std::invalid_argument("Coordinates must be between 0 and 7.");
+    }
+    return board[x][y];
+}
