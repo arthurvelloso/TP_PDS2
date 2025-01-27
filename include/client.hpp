@@ -6,14 +6,23 @@
 
 
 class Client {
+private:
+    std::string nickname;
+    std::string name;
+    int victories;
+    int ties;
+    int defeats;
+
+
 public:
-    bool search_client(std::string nick);
+    Client(std::string nick, std::string n, int d, int t, int v);
+
+    bool search_client();
     void signup_client();
     void remove_client();
-    void print_client_list();
-    void add_victory(std::string nick);
-    void add_defeat(std::string nick);
-    void add_tie(std::string nick);
+    void add_status(int n);
+
+    ~Client();
 };
 
 
