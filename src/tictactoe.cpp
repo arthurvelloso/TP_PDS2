@@ -77,7 +77,7 @@ void Tictactoe::read_move() {
 }
 
 bool Tictactoe:: is_move_valid(int x, int y) {
-    return Board[x][y];
+    return Board[x][y] == 0;
 }
 
 bool Tictactoe:: has_valid_moves() {
