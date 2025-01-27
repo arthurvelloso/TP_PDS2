@@ -1,17 +1,17 @@
-#include "jogodavelha.hpp"
+#include "tictactoe.hpp"
 #include <iostream>
 #include <limits>
 #include <stdexcept>
 
 using namespace std;
 
-Jogodavelha:: Jogodavelha() {
+TictacToe:: TictacToe() {
     is_game_ended = false;
     current_player = 1;
     winner = 0;
 }
 
-void Jogodavelha:: print_board() {
+void TictacToe:: print_board() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (Board[i][j] == 1) {
@@ -28,7 +28,7 @@ void Jogodavelha:: print_board() {
     }
 }
 
-void Jogodavelha::read_move() {
+void TictacToe::read_move() {
     int position;
 
     try {
@@ -76,11 +76,11 @@ void Jogodavelha::read_move() {
 }
 
 
-bool Jogodavelha:: is_move_valid(int x, int y) {
+bool TictacToe:: is_move_valid(int x, int y) {
     return Board[x][y] == 0; // A função simplesmente retorna o valor-verdade dessa igualdade.
 }
 
-bool Jogodavelha:: has_valid_moves() {
+bool TictacToe:: has_valid_moves() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (Board[i][j] == 0) {
@@ -92,7 +92,7 @@ bool Jogodavelha:: has_valid_moves() {
     return false; // Todas as casas estão preenchidas
 }
 
-void Jogodavelha:: test_win_condition() {
+void TictacToe:: test_win_condition() {
 
     for (int i = 0; i < 3; i++) { // Verifica linhas, colunas e diagonais
         int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
@@ -123,7 +123,7 @@ void Jogodavelha:: test_win_condition() {
     // Caso contrário, nenhum vencedor e jogo segue
 }
 
-void Jogodavelha:: ends_game() {
+void TictacToe:: ends_game() {
     if(winner == 1){
         cout << "Player 1 won!" << endl;
 
@@ -135,7 +135,7 @@ void Jogodavelha:: ends_game() {
     }
 }
 
-void Jogodavelha:: play() {
+void TictacToe:: play() {
     while (!is_game_ended) {
         print_board();
         test_win_condition();
@@ -146,5 +146,5 @@ void Jogodavelha:: play() {
     }
 }
 
-Jogodavelha:: ~Jogodavelha() {}
+TictacToe:: ~TictacToe() {}
  
