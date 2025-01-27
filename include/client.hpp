@@ -13,6 +13,7 @@ private:
     std::string nickname;
     int score;
     int victoryCount;
+    int tieCount;
     int defeatCount;
 
 
