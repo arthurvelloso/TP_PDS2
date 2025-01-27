@@ -1,7 +1,7 @@
-#ifndef JOGODAVELHA_HPP
+#ifndef TICTACTOE_HPP
 #include "board.hpp"
 
-class Jogodavelha : public Board {
+class Tictactoe : public Board {
 private:
     int Board[3][3] = {
     {0, 0, 0},
@@ -13,7 +13,7 @@ private:
     int winner;
 
 public:
-    Jogodavelha();
+    Tictactoe();
 
     void print_board() override;
     void read_move() override;
@@ -23,7 +23,7 @@ public:
     void ends_game();
     void play();
 
-    ~Jogodavelha();
+    ~Tictactoe();
 };
 
 #endif

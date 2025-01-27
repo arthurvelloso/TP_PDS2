@@ -16,7 +16,6 @@ public:
     virtual bool is_move_valid(int x, int y);
     virtual void test_win_condition();
 
-
     ~Board();
 };
 

@@ -5,13 +5,13 @@
 
 using namespace std;
 
-TictacToe:: TictacToe() {
+Tictactoe:: Tictactoe() {
     is_game_ended = false;
     current_player = 1;
     winner = 0;
 }
 
-void TictacToe:: print_board() {
+void Tictactoe:: print_board() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (Board[i][j] == 1) {
@@ -28,7 +28,7 @@ void TictacToe:: print_board() {
     }
 }
 
-void TictacToe::read_move() {
+void Tictactoe::read_move() {
     int position;
 
     try {
@@ -72,15 +72,14 @@ void TictacToe::read_move() {
     } catch (const std::invalid_argument& e) {
         // Trata a exceção de posição ocupada
         cout << e.what() << endl;
-        read_move(); // Solicita outra jogada
+        read_move(); // Solicita outra jogada  
+    }
+
+bool Tictactoe:: is_move_valid(int x, int y) {
+    return Board[x][y];
 }
 
-
-bool TictacToe:: is_move_valid(int x, int y) {
-    return Board[x][y] == 0; // A função simplesmente retorna o valor-verdade dessa igualdade.
-}
-
-bool TictacToe:: has_valid_moves() {
+bool Tictactoe:: has_valid_moves() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (Board[i][j] == 0) {
@@ -92,7 +91,7 @@ bool TictacToe:: has_valid_moves() {
     return false; // Todas as casas estão preenchidas
 }
 
-void TictacToe:: test_win_condition() {
+void Tictactoe:: test_win_condition() {
 
     for (int i = 0; i < 3; i++) { // Verifica linhas, colunas e diagonais
         int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
@@ -123,7 +122,7 @@ void TictacToe:: test_win_condition() {
     // Caso contrário, nenhum vencedor e jogo segue
 }
 
-void TictacToe:: ends_game() {
+void Tictactoe:: ends_game() {
     if(winner == 1){
         cout << "Player 1 won!" << endl;
 
@@ -135,7 +134,7 @@ void TictacToe:: ends_game() {
     }
 }
 
-void TictacToe:: play() {
+void Tictactoe:: play() {
     while (!is_game_ended) {
         print_board();
         test_win_condition();
@@ -146,5 +145,5 @@ void TictacToe:: play() {
     }
 }
 
-TictacToe:: ~TictacToe() {}
+Tictactoe:: ~Tictactoe() {}
  
