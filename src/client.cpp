@@ -5,11 +5,20 @@
 #define TEMP_NAME "users/temp.txt"
 
 
-bool Client::search_client(std::string nick) {
+Client::Client (std::string nick, std::string n, int d, int t, int v) {
+    nickname = nick;
+    name = n;
+    defeats = d;
+    ties = t;
+    victories = v;
+}
+
+
+bool Client::search_client() {
     std::ifstream userFile(FILE_NAME);
     std::string search;
     std::string comp = "Nickname: ";
-    comp.append(nick);
+    comp.append(nickname);
 
     while ( !userFile.eof() ) {
         getline(userFile, search);
@@ -30,23 +39,10 @@ void Client::signup_client() {
     std::ofstream userFile(FILE_NAME);
 
 
-    std::string n, nick;
-    std::cout << "Enter your first name: ";
-    std::cin >> n;
-    std::cout << "Enter your nickname: ";
-    std::cin >> nick;
-
-
-    while( search_client(nick) ) {
-        std::cout << "This nickname already exists. Enter another one: ";
-        std::cin >> nick;
-    }
-
-
     userFile << "User" << std::endl;
-    userFile << "Nickname: " << nick << std::endl;
-    userFile << "Name: " << n << std::endl;
-    userFile << "Victory: 0" << std::endl << "Tie: 0" << std::endl << "Defeat: 0" << std::endl;
+    userFile << "Nickname: " << nickname << std::endl;
+    userFile << "Name: " << name << std::endl;
+    userFile << "Defeats: 0" << std::endl << "Ties: 0" << std::endl << "Victories: 0" << std::endl;
     userFile << std::endl << std::endl << std::endl;
 
     userFile.close();
@@ -56,17 +52,12 @@ void Client::signup_client() {
 
 void Client::remove_client() {
     std::fstream userFile(FILE_NAME);
-    std::string nick;
     std::string deleteLine = "Nickname: ";
-    deleteLine.append(nick);
+    deleteLine.append(nickname);
     std::string line;
 
 
-    std::cout << "What user do you want to delete? ";
-    std::cin >> nick;
-
-
-    if ( !search_client(nick) ) {
+    if ( !this->search_client() ) {
         std::cout << "This user does not exist" << std::endl;
         userFile.close();
         return;
@@ -95,23 +86,11 @@ void Client::remove_client() {
 
 
 
-void Client::print_client_list() {
-    std::fstream userFile(FILE_NAME);
-    std::string line;
-
-    while ( getline(userFile, line) ) {
-        std::cout << line << std::endl;
-    }
-    userFile.close();
-}
-
-
-
-void Client::add_victory(std::string nick) {
+void Client::add_status(int n) {
     std::ifstream userFile(FILE_NAME);
     std::string line;
     std::string comp = "Nickname: ";
-    comp.append(nick);
+    comp.append(nickname);
 
     std::ofstream temp;
     temp.open(TEMP_NAME);
@@ -122,11 +101,27 @@ void Client::add_victory(std::string nick) {
     } while(line != comp);
 
 
+    //aqui é decidido se vai adicionar vitória, empate ou derrota
+    n += 2;
+    for ( int i = 0; i < n; i++ ) {
+        getline(userFile, line);
+        temp << line << std::endl;
+    }
+    
     getline(userFile, line);
-    int n;
-    userFile >> line >> n;
-    n++;
-    temp << line << " " << n << std::endl;
+    if ( n == 1 ) {
+        defeats++;
+        temp << "Defeats: " << defeats << std::endl;
+    }
+    else if ( n == 2 ) {
+        ties++;
+        temp << "Ties: " << ties << std::endl;
+    }
+    else {
+        victories++;
+        temp << "Victories: " << victories << std::endl;
+    }
+
 
     while ( getline(userFile, line) ) {
         temp << line << std::endl;
@@ -140,72 +135,4 @@ void Client::add_victory(std::string nick) {
 }
 
 
-
-void Client::add_tie(std::string nick) {
-    std::ifstream userFile(FILE_NAME);
-    std::string line;
-    std::string comp = "Nickname: ";
-    comp.append(nick);
-
-    std::ofstream temp;
-    temp.open(TEMP_NAME);
-
-    do {
-        getline(userFile, line);
-        temp << line << std::endl;
-    } while(line != comp);
-
-
-    getline(userFile, line);
-    getline(userFile, line);
-    int n;
-    userFile >> line >> n;
-    n++;
-    temp << line << " " << n << std::endl;
-
-    while ( getline(userFile, line) ) {
-        temp << line << std::endl;
-    }
-    
-
-    userFile.close();
-    temp.close();
-    remove(FILE_NAME);
-    rename(TEMP_NAME, FILE_NAME);
-}
-
-
-
-void Client::add_defeat(std::string nick) {
-    std::ifstream userFile(FILE_NAME);
-    std::string line;
-    std::string comp = "Nickname: ";
-    comp.append(nick);
-
-    std::ofstream temp;
-    temp.open(TEMP_NAME);
-
-    do {
-        getline(userFile, line);
-        temp << line << std::endl;
-    } while(line != comp);
-
-
-    getline(userFile, line);
-    getline(userFile, line);
-    getline(userFile, line);
-    int n;
-    userFile >> line >> n;
-    n++;
-    temp << line << " " << n << std::endl;
-
-    while ( getline(userFile, line) ) {
-        temp << line << std::endl;
-    }
-    
-
-    userFile.close();
-    temp.close();
-    remove(FILE_NAME);
-    rename(TEMP_NAME, FILE_NAME);
-}
+Client::~Client(){}
