@@ -49,5 +49,12 @@ int main(){
     }
 
     return 0;
+<<<<<<< HEAD
 }
+<<<<<<< Updated upstream
 }
+=======
+=======
+}
+>>>>>>> e18baca82e1ae4889128685bc1ee64ad973405f2
+>>>>>>> Stashed changes
