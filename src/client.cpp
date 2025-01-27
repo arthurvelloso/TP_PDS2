@@ -1,10 +1,11 @@
+#include "client.hpp"
 #include <iostream>
 #include <fstream>
 #define FILE_NAME "users/users.txt"
 #define TEMP_NAME "users/temp.txt"
 
 
-bool search_client(std::string nick) {
+bool Client::search_client(std::string nick) {
     std::ifstream userFile(FILE_NAME);
     std::string search;
     std::string comp = "Nickname: ";
@@ -25,7 +26,7 @@ bool search_client(std::string nick) {
 
 
 
-void signup_client() {
+void Client::signup_client() {
     std::ofstream userFile(FILE_NAME);
 
 
@@ -53,7 +54,7 @@ void signup_client() {
 
 
 
-void remove_client() {
+void Client::remove_client() {
     std::fstream userFile(FILE_NAME);
     std::string nick;
     std::string deleteLine = "Nickname: ";
@@ -94,7 +95,7 @@ void remove_client() {
 
 
 
-void print_client_list() {
+void Client::print_client_list() {
     std::fstream userFile(FILE_NAME);
     std::string line;
 
@@ -106,7 +107,7 @@ void print_client_list() {
 
 
 
-void add_victory(std::string nick) {
+void Client::add_victory(std::string nick) {
     std::ifstream userFile(FILE_NAME);
     std::string line;
     std::string comp = "Nickname: ";
@@ -140,7 +141,7 @@ void add_victory(std::string nick) {
 
 
 
-void add_tie(std::string nick) {
+void Client::add_tie(std::string nick) {
     std::ifstream userFile(FILE_NAME);
     std::string line;
     std::string comp = "Nickname: ";
@@ -175,7 +176,7 @@ void add_tie(std::string nick) {
 
 
 
-void add_defeat(std::string nick) {
+void Client::add_defeat(std::string nick) {
     std::ifstream userFile(FILE_NAME);
     std::string line;
     std::string comp = "Nickname: ";
