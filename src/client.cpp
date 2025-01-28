@@ -91,10 +91,16 @@ void Client::remove_client() {
     temp.open(TEMP_NAME);
 
     while ( getline(userFile, line) ) {
-        if(line != deleteLine) {
+        if(line != deleteLine && line != "User") {
             temp << line << std::endl;
         }
-        else {
+        else if (line == "User") {
+            getline(userFile, line);
+            if (line != deleteLine) {
+                temp << "User" << std::endl << line << std::endl;
+            }
+        }
+        if (line == deleteLine) {
             while( !userFile.eof() && line != "User") {
                 getline(userFile, line);
             }

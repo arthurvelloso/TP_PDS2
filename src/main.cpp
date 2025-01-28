@@ -54,7 +54,7 @@ void sign_up_player(vector<Client>& clients) {
         // Criação direta do objeto Player e inserção no vector
         
         string name;
-        cout << "Enter your first name: " << endl;
+        cout << "Enter your first name: ";
         cin >> name;
 
         if (cin.fail()) {
