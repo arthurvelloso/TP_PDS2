@@ -14,11 +14,11 @@ private:
 public:
     Connect4();
     void print_board() override;
-    void read_move() override;
+    void read_move(Client player1, Client player2) override;
     bool is_move_valid(int x, int y) override;
-    void test_win_condition() override;
+    void test_win_condition(Client player1, Client player2) override;
     bool is_there_more_moves();
-    void play();
+    void play(Client player1, Client player2);
     bool get_is_game_ended();
     int get_current_player();
     int get_board(int x, int y);

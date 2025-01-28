@@ -1,4 +1,5 @@
 #include "connect4.hpp"
+#include "client.hpp"
 #include <iostream>
 #include <limits>
 #include <stdexcept>
@@ -38,11 +39,11 @@ void Connect4::print_board() {
 }
 
 // Realizar jogada
-void Connect4:: read_move(){
+void Connect4:: read_move(Client player1, Client player2){
    
 while (true) {
         try {
-            cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", enter the column you want to play (0-6): ";
+            cout << "Player " << (current_player == 1 ? player1.get_nickname() : player2.get_nickname()) << ", enter the column you want to play (0-6): ";
             cout << endl;
         
             int move;
@@ -63,7 +64,7 @@ while (true) {
             if (is_move_valid(move, 0)) {
                 last_move = move;
                 board[column_height[move]][move] = current_player;
-                test_win_condition();
+                test_win_condition(player1, player2);
                 column_height[move]--;
                 current_player = -current_player;
                 break;
@@ -95,7 +96,7 @@ bool Connect4::is_move_valid(int move, int y) {
 }
 
 // Testar vitória
-void Connect4::test_win_condition() {
+void Connect4::test_win_condition(Client player1, Client player2) {
     int move = last_move;
     if(move < 0 || move > 7) {
         return;
@@ -115,6 +116,14 @@ void Connect4::test_win_condition() {
                 posy += j;
                 if (total == 4) {
                     cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
+                    if (current_player == 1) {
+                        player1.add_status(1);
+                        player2.add_status(-1);
+                    }
+                    else {
+                        player1.add_status(-1);
+                        player2.add_status(1);
+                    }
                     is_game_ended = true;
                     return;
                 }
@@ -127,6 +136,14 @@ void Connect4::test_win_condition() {
                 posy -= j;
                 if (total == 4) {
                     cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
+                    if (current_player == 1) {
+                        player1.add_status(1);
+                        player2.add_status(-1);
+                    }
+                    else {
+                        player1.add_status(-1);
+                        player2.add_status(1);
+                    }
                     is_game_ended = true;
                     return;
                 }
@@ -148,10 +165,10 @@ bool Connect4::is_there_more_moves() {
 }
 
 // Iniciar um jogo
-void Connect4::play() {
+void Connect4::play(Client player1, Client player2) {
     while (!is_game_ended) {
         print_board();
-        read_move();
+        read_move(player1, player2);
     }
     print_board();
 }

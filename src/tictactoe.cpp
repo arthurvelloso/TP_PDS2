@@ -28,7 +28,7 @@ void Tictactoe:: print_board() {
     }
 }
 
-void Tictactoe::read_move() {
+void Tictactoe::read_move(Client player1, Client player2) {
     int position;
 
     try {
@@ -67,12 +67,12 @@ void Tictactoe::read_move() {
     } catch (const std::out_of_range& e) {
         // Trata a exceção de posição fora dos limites
         cout << e.what() << endl;
-        read_move(); // Solicita outra jogada
+        read_move(player1, player2); // Solicita outra jogada
 
     } catch (const std::invalid_argument& e) {
         // Trata a exceção de posição ocupada
         cout << e.what() << endl;
-        read_move(); // Solicita outra jogada  
+        read_move(player1, player2); // Solicita outra jogada  
     }    
 }
 
@@ -92,7 +92,7 @@ bool Tictactoe:: has_valid_moves() {
     return false; // Todas as casas estão preenchidas
 }
 
-void Tictactoe:: test_win_condition() {
+void Tictactoe:: test_win_condition(Client player1, Client player2) {
 
     for (int i = 0; i < 3; i++) { // Verifica linhas, colunas e diagonais
         int rowSum = Board[i][0] + Board[i][1] + Board[i][2];
@@ -103,46 +103,52 @@ void Tictactoe:: test_win_condition() {
         if (rowSum == 3 || colSum == 3 || diag1 == 3 || diag2 == 3) {
             is_game_ended = true;
             winner = 1;
-            ends_game();
+            ends_game(player1, player2);
             return;
         }
 
         if (rowSum == -3 || colSum == -3 || diag1 == -3 || diag2 == -3) {                
             is_game_ended = true;
             winner = -1;
-            ends_game();
+            ends_game(player1, player2);
             return;
         }
     }
 
     if (has_valid_moves() == false) { // Verifica se empatou
             is_game_ended = true;
-            ends_game();
+            ends_game(player1, player2);
     }
 
     // Caso contrário, nenhum vencedor e jogo segue
 }
 
-void Tictactoe:: ends_game() {
+void Tictactoe:: ends_game(Client player1, Client player2) {
     if(winner == 1){
-        cout << "Player 1 won!" << endl;
+        player1.add_status(1);
+        player2.add_status(-1);
+        cout << player1.get_nickname() << " won!" << endl;
 
     } else if(winner == -1){
-        cout << "Player 2 won!" << endl;
+        player1.add_status(-1);
+        player2.add_status(1);
+        cout << player2.get_nickname() << " won!" << endl;
     }
     else {
+        player1.add_status(0);
+        player2.add_status(0);
         cout << "DEU VELHA" << endl;
     }
 }
 
-void Tictactoe:: play() {
+void Tictactoe:: play(Client player1, Client player2) {
     while (!is_game_ended) {
         print_board();
-        test_win_condition();
+        test_win_condition(player1, player2);
         if (is_game_ended) {
             break;
         }
-        read_move();
+        read_move(player1, player2);
     }
 }
 

@@ -2,6 +2,7 @@
 #define REVERSI_HPP
 
 #include "board.hpp"
+#include "client.hpp"
 
 class Reversi : public Board {
 private:
@@ -13,12 +14,12 @@ public:
     Reversi();
 
     void print_board() override;
-    void read_move() override;
+    void read_move(Client player1, Client player2) override;
     bool is_move_valid(int x, int y) override;
     bool has_valid_moves();
-    void test_win_condition() override;
-    void ends_game();
-    void play();
+    void test_win_condition(Client player1, Client player2) override;
+    void ends_game(Client player1, Client player2);
+    void play(Client player1, Client player2);
     bool get_is_game_ended();
     int get_current_player();
     int get_board(int x, int y);

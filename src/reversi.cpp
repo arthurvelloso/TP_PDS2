@@ -63,7 +63,7 @@ void Reversi::print_board() {
     }
 }
 
-void Reversi::read_move() {
+void Reversi::read_move(Client player1, Client player2) {
     while (true) {
         try {
             cout << "Player " << (current_player == 1 ? "White" : "Black") << "'s turn" << endl;
@@ -140,7 +140,7 @@ bool Reversi::has_valid_moves() {
     return false;
 }
 
-void Reversi::ends_game() {
+void Reversi::ends_game(Client player1, Client player2) {
     int sum_pieces = 0;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -148,16 +148,22 @@ void Reversi::ends_game() {
         }
     }
     if (sum_pieces > 0) {
+        player1.add_status(1);
+        player2.add_status(-1);
         cout << "Winner: Player White" << endl;
     } else if (sum_pieces < 0) {
+        player1.add_status(-1);
+        player2.add_status(1);
         cout << "Winner: Player Black" << endl;
     } else {
-        cout << "The game ended with a tie" << endl;
+        player1.add_status(0);
+        player2.add_status(0);
+        cout << "The game ended in a tie" << endl;
     }
     is_game_ended = true;
 }
 
-void Reversi::test_win_condition() {
+void Reversi::test_win_condition(Client player1, Client player2) {
     bool first_has_moves = has_valid_moves();
     if (first_has_moves) {
         return;
@@ -166,20 +172,20 @@ void Reversi::test_win_condition() {
     bool second_has_moves = has_valid_moves();
     if (!first_has_moves && !second_has_moves) {
         cout << "End of the game" << endl;
-        ends_game();
+        ends_game(player1, player2);
     } else if (!first_has_moves && second_has_moves) {
         cout << "Player " << (current_player == -1 ? "White" : "Black") << " doesn't have valid moves. Switching players." << endl;
     }
 }
 
-void Reversi::play() {
+void Reversi::play(Client player1, Client player2) {
     while (!is_game_ended) {
         print_board();
-        test_win_condition();
+        test_win_condition(player1, player2);
         if (is_game_ended) {
             break;
         }
-        read_move();
+        read_move(player1, player2);
     }
 }
 
