@@ -42,7 +42,7 @@ void sign_up_player(vector<Client>& clients) {
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            throw invalid_argument("Entrada inválida! Por favor, insira um nickname válido.");
+            throw invalid_argument("Invalid entry! Please, enter a valid nickname.");
         }
 
         // Verificação em vector de Players
@@ -54,13 +54,13 @@ void sign_up_player(vector<Client>& clients) {
         // Criação direta do objeto Player e inserção no vector
         
         string name;
-        cout << "Enter your name: " << endl;
+        cout << "Enter your first name: " << endl;
         cin >> name;
 
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            throw invalid_argument("Entrada inválida! Por favor, insira um nickname válido.");
+            throw invalid_argument("Invalid entry! Please, enter a valid nickname.");
         }
 
         clients.push_back(Client(nickname, name, 0, 0, 0));
@@ -70,9 +70,9 @@ void sign_up_player(vector<Client>& clients) {
     catch (const invalid_argument& e) {
         cout << e.what() << endl;
     } catch (const runtime_error& e) {
-        cerr << "Erro de registro: " << e.what() << endl;
+        cerr << "Registry error: " << e.what() << endl;
     } catch (const exception& e) {
-        cerr << "Erro inesperado: " << e.what() << endl;
+        cerr << "Unexpected error: " << e.what() << endl;
     }
 }
 
@@ -89,11 +89,12 @@ void list_players(vector<Client> clients) {
 
 void execute_game(vector<Client> clients) {
     cout << "Enter the game you want to play: " << endl;
+    cout << "(R) reversi" << endl << "(C) connect four" << endl << "(T) tic-tac-toe" << endl;
     char command;
     cin >> command;
     int p1_index = 0, p2_index = 0;
 
-    cout << "Enter the player 1 nickname: " << endl;
+    cout << "Enter player 1 nickname: " << endl;
     string player1;
     cin >> player1;
     for (Client c : clients) {
@@ -103,7 +104,7 @@ void execute_game(vector<Client> clients) {
         p1_index++;
     }
 
-    cout << "Enter the player 2 nickname: " << endl;
+    cout << "Enter player 2 nickname: " << endl;
     string player2;
     cin >> player2;
     for (Client c : clients) {
