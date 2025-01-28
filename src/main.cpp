@@ -64,6 +64,7 @@ void sign_up_player(vector<Client>& clients) {
         }
 
         clients.push_back(Client(nickname, name, 0, 0, 0));
+        clients.back().signup_client();
         cout << "Player register successfully!" << endl;
     }
     catch (const invalid_argument& e) {
