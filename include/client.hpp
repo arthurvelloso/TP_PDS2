@@ -21,6 +21,7 @@ public:
     void signup_client();
     void remove_client();
     void add_status(int n);
+    std::string get_nickname();
 
     ~Client();
 };
