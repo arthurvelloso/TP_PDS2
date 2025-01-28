@@ -104,17 +104,25 @@ void remove_player(vector <Client>& clients) {
 }
 
 void list_players(vector<Client> clients) {
+    if (clients.size() == 0 ) {
+        cout << endl << "-----------------------------------------" << endl;
+        cout << endl << "The PLAYERS LIST is empty. Sign up more players." << endl;
+        cout << endl << "-----------------------------------------" << endl;
+        return; 
+    } else {
+        cout << endl << "-----------------------------------------" << endl;
+        cout << endl << "PLAYERS LIST" << endl;
+        cout << endl;
+
+        for (Client& c : clients) {
+            cout << "Nickname: " << c.get_nickname() << endl;
+            cout << "Name: " << c.get_name() << endl;
+            cout << "Victories: " << c.get_victories() << endl;
+            cout << "Ties: " << c.get_ties() << endl;
+            cout << "Defeats " << c.get_defeats() << endl << endl;
+        }
     cout << endl << "-----------------------------------------" << endl;
-    cout << endl << "PLAYERS LIST" << endl;
-    cout << endl;
-    for (Client& c : clients) {
-        cout << "Nickname: " << c.get_nickname() << endl;
-        cout << "Name: " << c.get_name() << endl;
-        cout << "Victories: " << c.get_victories() << endl;
-        cout << "Ties: " << c.get_ties() << endl;
-        cout << "Defeats " << c.get_defeats() << endl << endl;
     }
-    cout << endl << "-----------------------------------------" << endl;
 }
 
 void execute_game(vector<Client> clients) {
