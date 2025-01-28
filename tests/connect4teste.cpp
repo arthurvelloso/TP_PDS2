@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 #include "connect4.hpp"
+#include "client.hpp"
 
 class InputSimulator {
 private:
@@ -46,8 +47,10 @@ TEST_CASE("Testando o construtor") {
 TEST_CASE("Testando o método read_move") {
     SUBCASE("Jogada válida") {
         Connect4 game;
+        Client p1;
+        Client p2;
         InputSimulator sim("3\n");
-        game.read_move();
+        game.read_move(p1, p2);
 
         // Verifica se a jogada foi realizada corretamente
         CHECK(game.get_board(5, 3) == 1); // A ficha do jogador 1 foi colocada na posição mais baixa da coluna 3
@@ -56,8 +59,10 @@ TEST_CASE("Testando o método read_move") {
 
    SUBCASE("Jogada inválida: coluna fora do tabuleiro") {
         Connect4 game;
+        Client p1;
+        Client p2;
         InputSimulator sim("8\n3\n");
-        game.read_move();
+        game.read_move(p1, p2);
 
         std::string output = sim.getOutput();
         CHECK(output.find("Invalid! Please, type a number between 0 e 6.") != std::string::npos);
@@ -65,8 +70,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Jogada inválida: coluna negativa") {
         Connect4 game;
+        Client p1;
+        Client p2;
         InputSimulator sim("-1\n3\n");
-        game.read_move();
+        game.read_move(p1, p2);
 
         std::string output = sim.getOutput();
         CHECK(output.find("Invalid! Please, type a number between 0 e 6.") != std::string::npos);
@@ -74,10 +81,12 @@ TEST_CASE("Testando o método read_move") {
 
         SUBCASE("Jogada inválida: coluna cheia") {
          Connect4 game;
+         Client p1;
+         Client p2;
          InputSimulator sim("3\n3\n3\n3\n3\n3\n3\n2\n"); 
 
         for (int i = 0; i < 7; i++) {
-            game.read_move();
+            game.read_move(p1, p2);
     }
 
 
