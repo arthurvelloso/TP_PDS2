@@ -15,6 +15,7 @@ private:
 
 
 public:
+    Client();
     Client(std::string nick, std::string n, int d, int t, int v);
 
     bool search_client();

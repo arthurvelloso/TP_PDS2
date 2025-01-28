@@ -5,6 +5,13 @@
 #define TEMP_NAME "users/temp.txt"
 
 
+Client::Client() {
+    nickname = "John";
+    name = "Doe";
+    defeats = ties = victories = 0;
+}
+
+
 Client::Client (std::string nick, std::string n, int d, int t, int v) {
     nickname = nick;
     name = n;
