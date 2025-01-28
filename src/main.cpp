@@ -130,6 +130,8 @@ cout << "Enter the game you want to play: " << endl;
             throw invalid_argument("Invalid argument. You must enter 'T', 'R', or 'C'. Try again.");
         }
 
+        command = toupper(command);
+
         cout << "Enter the player 1 nickname: " << endl;
         string player1;
         cin >> player1;
