@@ -13,8 +13,10 @@ INCLUDE_DIR = include
 
 #where are the source files and where object files are going
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+OBJS_NO_MAIN = $(filter-out $(OBJ_DIR)/main.o, $(OBJS))
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(TEST_SRCS))
 #the main executable's and test files target
 TARGET = $(BIN_DIR)/games
 TEST_TARGET = $(BIN_DIR)/test
@@ -39,12 +41,12 @@ $(TARGET): $(OBJS)
 #build tests
 tests: $(TEST_TARGET)
 
-$(TEST_TARGET): $(OBJS) $(TEST_OBJS)
+$(TEST_TARGET): $(OBJS_NO_MAIN) $(TEST_OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 
-$(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
