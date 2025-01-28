@@ -64,12 +64,6 @@ Para compilar todos os testes:
 
     make tests
 
-Para compilar apenas um teste específico:  
-
-    make test_connect4  
-    make test_reversi  
-    make test_tictactoe  
-
 Serão criados 3 executáveis na pasta "bin" com os nomes connect4test, reversitest e tictactoetest.
 
 
@@ -139,12 +133,6 @@ After compiling the program with the make command, an executable named games wil
 
 To compile all tests: 
 
-    make tests
-
-To compile a specific test only:
-
-    make test_connect4  
-    make test_reversi  
-    make test_tictactoe  
+    make tests 
 
 This will create 3 executables in the bin folder named connect4test, reversitest, and tictactoetest.
