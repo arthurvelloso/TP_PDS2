@@ -54,13 +54,13 @@ TEST_CASE("Testando o método read_move") {
         CHECK(game.get_current_player() == -1); // Agora é a vez do jogador 2
     }
 
-    SUBCASE("Jogada inválida: coluna fora do tabuleiro") {
+   SUBCASE("Jogada inválida: coluna fora do tabuleiro") {
         Connect4 game;
         InputSimulator sim("8\n3\n");
         game.read_move();
 
         std::string output = sim.getOutput();
-        CHECK(output.find("That's not a valid move") != std::string::npos);
+        CHECK(output.find("Invalid! Please, type a number between 0 e 6.") != std::string::npos);
     }
 
     SUBCASE("Jogada inválida: coluna negativa") {
@@ -69,20 +69,20 @@ TEST_CASE("Testando o método read_move") {
         game.read_move();
 
         std::string output = sim.getOutput();
-        CHECK(output.find("That's not a valid move") != std::string::npos);
+        CHECK(output.find("Invalid! Please, type a number between 0 e 6.") != std::string::npos);
     }
 
-    SUBCASE("Jogada inválida: coluna cheia") {
+        SUBCASE("Jogada inválida: coluna cheia") {
          Connect4 game;
          InputSimulator sim("3\n3\n3\n3\n3\n3\n3\n2\n"); 
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             game.read_move();
     }
 
 
     std::string output = sim.getOutput();
-    CHECK(output.find("That's not a valid move") != std::string::npos);
+    CHECK(output.find("Occupped position, try again") != std::string::npos);
     }
 
 }
