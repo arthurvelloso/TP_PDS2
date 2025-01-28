@@ -76,32 +76,51 @@ void sign_up_player(vector<Client>& clients) {
 }
 
 
-void list_players() {
-
+void list_players(vector<Client> clients) {
+    for (Client& c : clients) {
+        cout << "Nickname: " << c.get_nickname() << endl;
+        cout << "Name: " << c.get_name() << endl;
+        cout << "Victories: " << c.get_victories() << endl;
+        cout << "Ties: " << c.get_ties() << endl;
+        cout << "Defeats " << c.get_defeats() << endl << endl;
+    }
 }
 
-void execute_game() {
+void execute_game(vector<Client> clients) {
     cout << "Enter the game you want to play: " << endl;
     char command;
     cin >> command;
+    int p1_index = 0, p2_index = 0;
 
     cout << "Enter the player 1 nickname: " << endl;
     string player1;
     cin >> player1;
+    for (Client c : clients) {
+        if (c.get_nickname() == player1) {
+            break;
+        }
+        p1_index++;
+    }
 
     cout << "Enter the player 2 nickname: " << endl;
     string player2;
     cin >> player2;
+    for (Client c : clients) {
+        if (c.get_nickname() == player2) {
+            break;
+        }
+        p2_index++;
+    }
 
     if(command == 'R') {
         Reversi game;
-        game.play();
+        game.play(clients[p1_index], clients[p2_index]);
     } else if(command == 'C') {
         Connect4 game;
-        game.play();
+        game.play(clients[p1_index], clients[p2_index]);
     } else if(command == 'T') {
         Tictactoe game;
-        game.play();
+        game.play(clients[p1_index], clients[p2_index]);
     } else {
         cout << "Invalid input. You neet to type (R) (C) or (T)." << endl;
     }
@@ -149,9 +168,9 @@ int main(){
                     }
                 }
             } else if (command == "LP") {
-                list_players();
+                list_players(clients);
             } else if (command == "EG") {
-                execute_game();
+                execute_game(clients);
             } else if (command == "END") {
                 cout << ":( System shutting down. Goodbye!" << endl;
                 break;
