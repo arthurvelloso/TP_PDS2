@@ -29,51 +29,55 @@ void Tictactoe:: print_board() {
 }
 
 void Tictactoe::read_move(Client player1, Client player2) {
-    int position;
+    while (true) {
+        try {
+            int position;
+            cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", choose one position (1-9): ";
+            cout << endl;
+            
+            if (!(cin >> position)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                throw runtime_error("Invalid input! Please, your number must be a number");
+            }
 
-    try {
-        // Pede a jogada do jogador
-        cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", choose one position (1-9): ";
-        cin >> position;
-        cout << endl;
+            if (position < 1 || position > 9) {
+                 throw std::out_of_range("Invalid! Please, type a number between 1 e 9.");
+            }
 
-        // Verifica se a entrada é inválida (não é um número inteiro)
-        if (cin.fail()) {
-            cin.clear(); // Limpa o estado de erro do cin
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descartar a entrada inválida
-            throw std::invalid_argument("Invalid input! Please, your number must be a number");
+            int row = (position - 1) / 3;
+            int col = (position - 1) % 3;
+
+              // Verifica se a jogada é válida
+            if (!is_move_valid(row, col)) {
+                throw std::invalid_argument("OCCUPED POSITION, TRY AGAIN");
+            }
+
+            if(is_move_valid(row, col)){
+                // Atualiza o tabuleiro com o valor do jogador atual
+                Board[row][col] = current_player;
+
+               // Alterna o jogador
+                current_player *= -1;
+                break;
+            }
+
         }
 
-        // Verifica se a posição está fora dos limites válidos
-        if (position < 1 || position > 9) {
-            throw std::out_of_range("Invalid! Please, type a number between 1 e 9.");
+        catch (const runtime_error& e) {
+            cout << "Input Error: " << e.what() << endl;
         }
+        catch (const std::out_of_range& e) {
+            // Trata a exceção de posição fora dos limites
+            cout << e.what() << endl;
+        } catch (const std::invalid_argument& e) {
+            // Trata a exceção de posição ocupada
+            cout << e.what() << endl; 
+        } 
 
-        // Converte a posição para índices de linha e coluna
-        int row = (position - 1) / 3;
-        int col = (position - 1) % 3;
+        cout << "Try again." << endl;
+    }
 
-        // Verifica se a jogada é válida
-        if (!is_move_valid(row, col)) {
-            throw std::invalid_argument("OCCUPED POSITION, TRY AGAIN");
-        }
-
-        // Atualiza o tabuleiro com o valor do jogador atual
-        Board[row][col] = current_player;
-
-        // Alterna o jogador
-        current_player *= -1;
-
-    } catch (const std::out_of_range& e) {
-        // Trata a exceção de posição fora dos limites
-        cout << e.what() << endl;
-        read_move(player1, player2); // Solicita outra jogada
-
-    } catch (const std::invalid_argument& e) {
-        // Trata a exceção de posição ocupada
-        cout << e.what() << endl;
-        read_move(player1, player2); // Solicita outra jogada  
-    }    
 }
 
 bool Tictactoe:: is_move_valid(int x, int y) {
