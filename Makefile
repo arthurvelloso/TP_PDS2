@@ -51,6 +51,7 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c
 
 
 #clean object and executable files
+clean: 
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 
