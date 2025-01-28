@@ -15,10 +15,8 @@
 
 using namespace std;
 
-vector<Client> clients;
-
 // Instanciando todos os jogadores já registrados no .txt
-void instance_all(vector<Client> clients) {
+void instance_all(vector<Client>& clients) {
     ifstream userFile(FILE_NAME);
     string line;
     string nick;
@@ -35,7 +33,7 @@ void instance_all(vector<Client> clients) {
     }
 }
 
-void sign_up_player() {
+void sign_up_player(vector<Client>& clients) {
     try {
         string nickname;
         cout << "Enter your nickname: ";
@@ -48,11 +46,11 @@ void sign_up_player() {
         }
 
         // Verificação em vector de Players
-        for (const Client& player : clients) {
+        for (Client& player : clients) {
             if (player.get_nickname() == nickname) {
                 throw runtime_error("That nickname already exists. Choose another nickname.");
             }
-    
+        }    
         // Criação direta do objeto Player e inserção no vector
         
         string name;
@@ -67,28 +65,64 @@ void sign_up_player() {
 
         clients.push_back(Client(nickname, name, 0, 0, 0));
         cout << "Player register successfully!" << endl;
-
-    } catch (const invalid_argument& e) {
-        cerr << "Erro de entrada: " << e.what() << endl;
-        throw;
+    }
+    catch (const invalid_argument& e) {
+        cout << e.what() << endl;
     } catch (const runtime_error& e) {
         cerr << "Erro de registro: " << e.what() << endl;
-        throw;
     } catch (const exception& e) {
         cerr << "Erro inesperado: " << e.what() << endl;
-        throw;
     }
 }
 
 
+void remove_player() {
 
+}
 
-void instance_all(clients);
+void list_players() {
+
+}
+
+void execute_game() {
+    cout << "Enter the game you want to play: " << endl;
+    char command;
+    cin >> command;
+
+    cout << "Enter the player 1 nickname: " << endl;
+    string player1;
+    cin >> player1;
+
+    cout << "Enter the player 2 nickname: " << endl;
+    string player2;
+    cin >> player2;
+
+    if(command == 'R') {
+        Reversi game;
+        game.play();
+    } else if(command == 'C') {
+        Connect4 game;
+        game.play();
+    } else if(command == 'T') {
+        Tictactoe game;
+        game.play();
+    } else {
+        cout << "Invalid input. You neet to type (R) (C) or (T)." << endl;
+    }
+
+    
+
+    
+    
+
+}
 
 
 int main(){
     string command;
 
+    vector<Client> clients;
+    instance_all(clients);
     cout << "Welcome! We're happy to have you here!" << endl;
 
     while (true) {
@@ -106,7 +140,7 @@ int main(){
 
         try {
             if (command == "SP") {
-                sign_up_player();
+                sign_up_player(clients);
             } else if (command == "RP") {
                 remove_player();
             } else if (command == "LP") {
@@ -127,12 +161,4 @@ int main(){
     }
 
     return 0;
-<<<<<<< HEAD
 }
-<<<<<<< Updated upstream
-}
-=======
-=======
-}
->>>>>>> e18baca82e1ae4889128685bc1ee64ad973405f2
->>>>>>> Stashed changes
