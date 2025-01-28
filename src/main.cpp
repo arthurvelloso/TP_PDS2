@@ -123,6 +123,7 @@ cout << "Enter the game you want to play: " << endl;
     char command;
     try {
         cin >> command;
+        command = toupper(command);
         int p1_index = 0, p2_index = 0;
 
         // Validação do comando
@@ -130,7 +131,6 @@ cout << "Enter the game you want to play: " << endl;
             throw invalid_argument("Invalid argument. You must enter 'T', 'R', or 'C'. Try again.");
         }
 
-        command = toupper(command);
 
         cout << "Enter the player 1 nickname: " << endl;
         string player1;
