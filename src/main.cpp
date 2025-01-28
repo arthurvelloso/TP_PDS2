@@ -76,6 +76,33 @@ void sign_up_player(vector<Client>& clients) {
     }
 }
 
+void remove_player(vector <Client> clients) {
+    cout << "Type the nickname of the player you want to remove: ";
+
+    try {
+        string nick;
+        int flag = 0;
+        
+        cin >> nick;
+        for (Client& player : clients) {
+            if (player.get_nickname() == nick) {
+                player.remove_client();
+                clients.clear();
+                instance_all(clients);
+                flag = 1;
+            break;
+            }
+        }
+        
+        if(flag == 0) {
+            throw std::invalid_argument("OCCUPED POSITION, TRY AGAIN");
+        }
+    }
+    catch(const std::invalid_argument& e) {
+        cout << e.what() << endl;
+    }
+}
+
 
 void list_players(vector<Client> clients) {
     for (Client& c : clients) {
@@ -173,17 +200,7 @@ int main(){
             if (command == "SP") {
                 sign_up_player(clients);
             } else if (command == "RP") {
-                cout << "Type the nickname of the player you want to remove: ";
-                string nick;
-                cin >> nick;
-                for (Client& player : clients) {
-                    if (player.get_nickname() == nick) {
-                        player.remove_client();
-                        clients.clear();
-                        instance_all(clients);
-                        break;
-                    }
-                }
+                remove_player(clients);
             } else if (command == "LP") {
                 list_players(clients);
             } else if (command == "EG") {
