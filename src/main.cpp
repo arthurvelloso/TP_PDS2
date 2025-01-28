@@ -133,7 +133,7 @@ cout << "Enter the game you want to play: " << endl;
 
         // Verifica se o jogador 1 existe
         p1_index = -1;
-        for (int i = 0; i < clients.size(); ++i) {
+        for (unsigned int i = 0; i < clients.size(); ++i) {
             if (clients[i].get_nickname() == player1) {
                 p1_index = i;
                 break;
@@ -149,7 +149,7 @@ cout << "Enter the game you want to play: " << endl;
 
         // Verifica se o jogador 2 existe
         p2_index = -1;
-        for (int i = 0; i < clients.size(); ++i) {
+        for (unsigned int i = 0; i < clients.size(); ++i) {
             if (clients[i].get_nickname() == player2) {
                 p2_index = i;
                 break;
