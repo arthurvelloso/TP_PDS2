@@ -43,14 +43,14 @@ bool Client::search_client() {
 
 
 void Client::signup_client() {
-    std::ofstream userFile(FILE_NAME);
-
+    std::ofstream userFile;
+    userFile.open(FILE_NAME, std::ios::app);
 
     userFile << "User" << std::endl;
     userFile << "Nickname: " << nickname << std::endl;
     userFile << "Name: " << name << std::endl;
     userFile << "Defeats: 0" << std::endl << "Ties: 0" << std::endl << "Victories: 0" << std::endl;
-    userFile << std::endl << std::endl << std::endl;
+    userFile << std::endl << std::endl;
 
     userFile.close();
 }
