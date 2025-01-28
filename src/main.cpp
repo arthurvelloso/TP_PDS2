@@ -175,6 +175,7 @@ int main(){
             } else if (command == "RP") {
                 cout << "Type the nickname of the player you want to remove: ";
                 string nick;
+                cin >> nick;
                 for (Client& player : clients) {
                     if (player.get_nickname() == nick) {
                         player.remove_client();
