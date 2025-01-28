@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <iostream>
+#include "client.hpp"
 
 
 class Board {
