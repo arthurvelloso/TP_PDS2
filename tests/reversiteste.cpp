@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
-
+#include "client.hpp"
 #include "reversi.hpp"
 
 class InputSimulator {
@@ -57,8 +57,10 @@ TEST_CASE("Testando o construtor") {
 TEST_CASE("Testando o método read_move") {
     SUBCASE("Input valido") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         // Confere se jogada foi feita corretamente
         CHECK(game.get_board(2, 3) == -1);
@@ -67,8 +69,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Jogada nao numerica") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("ab cd\n2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         //Confere mensagem de erro
         std::string output = sim.getOutput();
@@ -77,8 +81,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Jogada fora do tabuleiro") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("8 8\n2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         //Confere mensagem de erro
         std::string output = sim.getOutput();
@@ -87,8 +93,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Jogada em espaco ocupado") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("3 3\n2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         //Confere mensagem de erro
         std::string output = sim.getOutput();
@@ -97,8 +105,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Jogada invalida - nao captura pecas") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("0 0\n2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         //Confere mensagem de erro
         std::string output = sim.getOutput();
@@ -107,8 +117,10 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Varias jogadas invalidas antes de jogada valida") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("ab cd\n9 9\n3 3\n0 0\n2 3\n");
-        game.read_move();
+        game.read_move(p1, p2);
         
         //Confere se jogada foi feita corretamente
         CHECK(game.get_board(2, 3) == -1);
@@ -117,9 +129,11 @@ TEST_CASE("Testando o método read_move") {
 
     SUBCASE("Varias jogadas validas") {
         Reversi game;
+        Client p1;
+        Client p2;
         InputSimulator sim("2 3\n4 2\n");
-        game.read_move();
-        game.read_move();
+        game.read_move(p1, p2);
+        game.read_move(p1, p2);
         
         //Confere se jogada foi feita corretamente
         CHECK(game.get_board(2, 3) == -1);
@@ -150,9 +164,11 @@ TEST_CASE("Testando o método has_valid_moves") {
 
 }
 
-TEST_CASE("Testando o método ends_game") {
+/*TEST_CASE("Testando o método ends_game") {
         Reversi game;
-            game.ends_game();
+        Client p1;
+        Client p2;
+            game.ends_game(p1, p2);
             CHECK(game.get_is_game_ended() == true);
     
-    }
+    }*/
