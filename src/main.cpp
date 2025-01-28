@@ -76,7 +76,7 @@ void sign_up_player(vector<Client>& clients) {
     }
 }
 
-void remove_player(vector <Client> clients) {
+void remove_player(vector <Client>& clients) {
     cout << "Type the nickname of the player you want to remove: ";
 
     try {
