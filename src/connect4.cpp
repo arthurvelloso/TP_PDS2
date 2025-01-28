@@ -115,7 +115,7 @@ void Connect4::test_win_condition(Client player1, Client player2) {
                 posx += i;
                 posy += j;
                 if (total == 4) {
-                    cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
+                    cout << (current_player == 1 ? player1.get_nickname() : player2.get_name()) << " wins!" << endl;
                     if (current_player == 1) {
                         player1.add_status(1);
                         player2.add_status(-1);
@@ -135,7 +135,7 @@ void Connect4::test_win_condition(Client player1, Client player2) {
                 posx -= i;
                 posy -= j;
                 if (total == 4) {
-                    cout << (current_player == 1 ? "Black" : "White") << " player wins!" << endl;
+                    cout << (current_player == 1 ? player1.get_nickname() : player2.get_name()) << " wins!" << endl;
                     if (current_player == 1) {
                         player1.add_status(1);
                         player2.add_status(-1);
