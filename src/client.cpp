@@ -52,6 +52,18 @@ void Client::signup_client() {
 std::string Client::get_nickname() {
     return nickname;
 }
+std::string Client::get_name() {
+    return name;
+}
+int Client::get_victories() {
+    return victories;
+}
+int Client::get_ties() {
+    return ties;
+}
+int Client::get_defeats() {
+    return defeats;
+}
 
 
 void Client::remove_client() {

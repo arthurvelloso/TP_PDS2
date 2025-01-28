@@ -22,6 +22,10 @@ public:
     void remove_client();
     void add_status(int n);
     std::string get_nickname();
+    std::string get_name();
+    int get_victories();
+    int get_ties();
+    int get_defeats();
 
     ~Client();
 };
