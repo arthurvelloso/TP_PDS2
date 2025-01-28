@@ -39,53 +39,54 @@ void Connect4::print_board() {
 
 // Realizar jogada
 void Connect4:: read_move(){
-    int move;
-    bool valid_input = false;
+   
+while (true) {
+        try {
+            cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", enter the column you want to play (0-6): ";
+            cout << endl;
+        
+            int move;
+            if (!(cin >> move)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                throw runtime_error("Invalid input! Please, your number must be a number");
+            }
 
-    
-    try {  
-        cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", enter the column you want to play (0-6): "; 
-        cin >> move;
-        cout << endl;     
+            if (move < 0 || move > 6) {
+                throw std::out_of_range("Invalid! Please, type a number between 0 e 6.");
+             }
 
-        // Verifica se a entrada é inválida (não é um número inteiro)
-        if (cin.fail()) {
-            cin.clear(); // Limpa o estado de erro do cin
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descartar a entrada inválida
-            throw std::invalid_argument("Invalid input! Please, your number must be a number");
+             if (!is_move_valid(move, 0)) {
+                 throw std::invalid_argument("Occupped position, try again");
+             }
+
+            if (is_move_valid(move, 0)) {
+                last_move = move;
+                board[column_height[move]][move] = current_player;
+                test_win_condition();
+                column_height[move]--;
+                current_player = -current_player;
+                break;
+            }
+            else{
+                cout << "Error: This is not a valid move." << endl;
+            }
+        }
+        catch (const invalid_argument& e) {
+            cout << "Input Error: " << e.what() << endl;
         }
 
-        // Verifica se a posição está fora dos limites válidos
-        if (move < 0 || move > 6) {
-            throw std::out_of_range("Invalid! Please, type a number between 1 e 9.");
+        catch (const out_of_range& e) {
+            cout << "Input Error: " << e.what() << endl;
         }
 
-        if (!is_move_valid(0, move)) {
-            throw std::invalid_argument("Occupped position, try again");
+        catch (const runtime_error& e) {
+            cout << "Input Error: " << e.what() << endl;
         }
 
-        last_move = move;
-        board[column_height[move]][move] = current_player;
-        test_win_condition();
-        column_height[move]--;
-        current_player = -current_player;
-        valid_input = true;
+        cout << "Try again." << endl;
     }
-    catch (const std::out_of_range& e) {
-        // Trata a exceção de posição fora dos limites
-        cout << e.what() << endl;
-        read_move(); // Solicita outra jogada
 
-    } catch (const std::invalid_argument& e) {
-        // Trata a exceção de posição ocupada
-        cout << e.what() << endl;
-        read_move(); // Solicita outra jogada
-    }
-    catch (...) {
-        // Tratamento genérico para exceções inesperadas
-        cout << "Inesperated error. Try again a new play." << endl;
-        read_move(); // Solicita outra jogada
-    }
 }
 
 // Testar se jogada é válida
