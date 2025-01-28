@@ -17,19 +17,19 @@ using namespace std;
 
 // Instanciando todos os jogadores já registrados no .txt
 void instance_all(vector<Client>& clients) {
+    ofstream file(FILE_NAME);
+    file.close();    
     ifstream userFile(FILE_NAME);
     string line;
     string nick;
     string n;
     int d, t, v;
 
-    while ( !userFile.eof() ) {
-        while ( line != "User" ) {
-            userFile >> line;
+    while ( getline(userFile, line) ) {
+        if (line == "User") {
+            userFile >> line >> nick >> line >> n >> line >> d >> line >> t >> line >> v;
+            clients.push_back(Client(nick, n, d, t, v));
         }
-
-        userFile >> line >> nick >> line >> n >> line >> d >> line >> t >> line >> v;
-        clients.push_back(Client(nick, n, d, t, v));
     }
 }
 
