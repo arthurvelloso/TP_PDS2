@@ -16,10 +16,10 @@ SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 OBJS_NO_MAIN = $(filter-out $(OBJ_DIR)/main.o, $(OBJS))
-TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(TEST_SRCS))
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(OBJ_DIR)/test_%.o, $(TEST_SRCS))
 #the main executable's and test files target
 TARGET = $(BIN_DIR)/games
-TEST_TARGET = $(BIN_DIR)/test
+TEST_TARGETS = $(patsubst $(TEST_DIR)/%.cpp, $(BIN_DIR)/%, $(TEST_SRCS))
 
 
 #default target
@@ -32,23 +32,32 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-#command to compile the executable
+#command to compile test object files
+$(OBJ_DIR)/test_%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+
+#command to compile the main executable
 $(TARGET): $(OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 
-#build tests
-tests: $(TEST_TARGET)
+#build all tests
+tests: $(TEST_TARGETS)
 
-$(TEST_TARGET): $(OBJS_NO_MAIN) $(TEST_OBJS)
+
+#pattern for individual test executables
+$(BIN_DIR)/%: $(OBJ_DIR)/test_%.o $(OBJS_NO_MAIN)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 
-$(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+#individual test targets
+test_connect4: $(BIN_DIR)/connect4test
+test_reversi: $(BIN_DIR)/reversitest
+test_tictactoe: $(BIN_DIR)/tictactoetest
 
 
 
