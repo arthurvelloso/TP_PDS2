@@ -88,52 +88,66 @@ void list_players(vector<Client> clients) {
 }
 
 void execute_game(vector<Client> clients) {
-    cout << "Enter the game you want to play: " << endl;
-    cout << "(R) reversi" << endl << "(C) connect four" << endl << "(T) tic-tac-toe" << endl;
+cout << "Enter the game you want to play: " << endl;
+    cout << "TicTacToe (T)    Reversi (R)     Connect4 (C)" << endl;
     char command;
-    cin >> command;
-    int p1_index = 0, p2_index = 0;
+    try {
+        cin >> command;
+        int p1_index = 0, p2_index = 0;
 
-    cout << "Enter player 1 nickname: " << endl;
-    string player1;
-    cin >> player1;
-    for (Client c : clients) {
-        if (c.get_nickname() == player1) {
-            break;
+        // Validação do comando
+        if (command != 'T' && command != 'R' && command != 'C') {
+            throw invalid_argument("Invalid argument. You must enter 'T', 'R', or 'C'. Try again.");
         }
-        p1_index++;
-    }
 
-    cout << "Enter player 2 nickname: " << endl;
-    string player2;
-    cin >> player2;
-    for (Client c : clients) {
-        if (c.get_nickname() == player2) {
-            break;
+        cout << "Enter the player 1 nickname: " << endl;
+        string player1;
+        cin >> player1;
+
+        // Verifica se o jogador 1 existe
+        p1_index = -1;
+        for (int i = 0; i < clients.size(); ++i) {
+            if (clients[i].get_nickname() == player1) {
+                p1_index = i;
+                break;
+            }
         }
-        p2_index++;
+        if (p1_index == -1) {
+            throw invalid_argument("Player 1 not found. Please enter a valid nickname.");
+        }
+
+        cout << "Enter the player 2 nickname: " << endl;
+        string player2;
+        cin >> player2;
+
+        // Verifica se o jogador 2 existe
+        p2_index = -1;
+        for (int i = 0; i < clients.size(); ++i) {
+            if (clients[i].get_nickname() == player2) {
+                p2_index = i;
+                break;
+            }
+        }
+        if (p2_index == -1) {
+            throw invalid_argument("Player 2 not found. Please enter a valid nickname.");
+        }
+
+        // Inicia o jogo correspondente
+        if (command == 'R') {
+            Reversi game;
+            game.play(clients[p1_index], clients[p2_index]);
+        } else if (command == 'C') {
+            Connect4 game;
+            game.play(clients[p1_index], clients[p2_index]);
+        } else if (command == 'T') {
+            Tictactoe game;
+            game.play(clients[p1_index], clients[p2_index]);
+        }
     }
-
-    if(command == 'R') {
-        Reversi game;
-        game.play(clients[p1_index], clients[p2_index]);
-    } else if(command == 'C') {
-        Connect4 game;
-        game.play(clients[p1_index], clients[p2_index]);
-    } else if(command == 'T') {
-        Tictactoe game;
-        game.play(clients[p1_index], clients[p2_index]);
-    } else {
-        cout << "Invalid input. You neet to type (R) (C) or (T)." << endl;
+    catch (const invalid_argument& e) {
+        cout << "Error: " << e.what() << endl;
     }
-
-    
-
-    
-    
-
 }
-
 
 int main(){
     string command;
