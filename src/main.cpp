@@ -126,7 +126,12 @@ void list_players(vector<Client> clients) {
 }
 
 void execute_game(vector<Client> clients) {
-cout << "Enter the game you want to play: " << endl;
+    if (clients.size() < 2) {
+        cout << endl << "There are only " << clients.size() << " players. It must have at least two." << endl;
+        return; 
+    }
+    
+    cout << "Enter the game you want to play: " << endl;
     cout << "TicTacToe (T)    Reversi (R)     Connect4 (C)" << endl;
     char command;
     try {
