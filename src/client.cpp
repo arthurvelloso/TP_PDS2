@@ -49,6 +49,10 @@ void Client::signup_client() {
 }
 
 
+std::string Client::get_nickname() {
+    return nickname;
+}
+
 
 void Client::remove_client() {
     std::fstream userFile(FILE_NAME);

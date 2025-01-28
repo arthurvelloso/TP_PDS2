@@ -76,10 +76,6 @@ void sign_up_player(vector<Client>& clients) {
 }
 
 
-void remove_player() {
-
-}
-
 void list_players() {
 
 }
@@ -142,7 +138,16 @@ int main(){
             if (command == "SP") {
                 sign_up_player(clients);
             } else if (command == "RP") {
-                remove_player();
+                cout << "Type the nickname of the player you want to remove: ";
+                string nick;
+                for (Client& player : clients) {
+                    if (player.get_nickname() == nick) {
+                        player.remove_client();
+                        clients.clear();
+                        instance_all(clients);
+                        break;
+                    }
+                }
             } else if (command == "LP") {
                 list_players();
             } else if (command == "EG") {
