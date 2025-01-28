@@ -205,6 +205,8 @@ int main(){
                 list_players(clients);
             } else if (command == "EG") {
                 execute_game(clients);
+                clients.clear();
+                instance_all(clients);
             } else if (command == "END") {
                 cout << ":( System shutting down. Goodbye!" << endl;
                 break;
