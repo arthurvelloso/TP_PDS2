@@ -43,7 +43,7 @@ void Connect4:: read_move(Client player1, Client player2){
    
 while (true) {
         try {
-            cout << "Player " << (current_player == 1 ? player1.get_nickname() : player2.get_nickname()) << ", enter the column you want to play (0-6): ";
+            cout << (current_player == 1 ? player1.get_nickname() : player2.get_nickname()) << ", enter the column you want to play (0-6): ";
             cout << endl;
         
             int move;
