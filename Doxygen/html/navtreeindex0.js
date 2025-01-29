@@ -1,0 +1,25 @@
+var NAVTREEINDEX0 =
+{
+"board_8cpp.html":[0,0,0,0],
+"client_8cpp.html":[0,0,0,1],
+"client_8cpp.html#a3ad73c18a19a556f171a516f5057e0d0":[0,0,0,1,1],
+"client_8cpp.html#ab117546549783a058d0321a287699579":[0,0,0,1,0],
+"connect4_8cpp.html":[0,0,0,2],
+"dir_68267d1309a1af8e8297ef4c3efbcdba.html":[0,0,0],
+"files.html":[0,0],
+"globals.html":[0,1,0],
+"globals_defs.html":[0,1,2],
+"globals_func.html":[0,1,1],
+"index.html":[],
+"main_8cpp.html":[0,0,0,3],
+"main_8cpp.html#a200eaddfd03482e6f5a58e1d0317bc61":[0,0,0,3,1],
+"main_8cpp.html#a37aa96c2da89e2e2be22bbe6ecc7726a":[0,0,0,3,3],
+"main_8cpp.html#a5f4ef6dc5f581994f9eda041e3f4e139":[0,0,0,3,2],
+"main_8cpp.html#a7ff3a10ed701cd08e048f95df4ff34fe":[0,0,0,3,6],
+"main_8cpp.html#ab117546549783a058d0321a287699579":[0,0,0,3,0],
+"main_8cpp.html#acc65897fb7cfaaead14071b762801e0d":[0,0,0,3,5],
+"main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4":[0,0,0,3,4],
+"pages.html":[],
+"reversi_8cpp.html":[0,0,0,4],
+"tictactoe_8cpp.html":[0,0,0,5]
+};
