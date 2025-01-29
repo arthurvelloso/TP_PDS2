@@ -90,7 +90,13 @@ void Client::remove_client() {
     std::ofstream temp;
     temp.open(TEMP_NAME);
 
+
+    bool deleted = false;
     while ( getline(userFile, line) ) {
+        if (deleted == true) {
+            temp << "User" << std::endl;
+            deleted = false;
+        }
         if(line != deleteLine && line != "User") {
             temp << line << std::endl;
         }
@@ -104,6 +110,7 @@ void Client::remove_client() {
             while( !userFile.eof() && line != "User") {
                 getline(userFile, line);
             }
+            deleted = true;
         }
     }
     
