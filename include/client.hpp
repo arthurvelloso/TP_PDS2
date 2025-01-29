@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-
+/// @brief Classe client
 class Client {
 private:
     std::string nickname;

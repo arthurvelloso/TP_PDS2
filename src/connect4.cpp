@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Inicializador
+/// Inicializador
 Connect4::Connect4() {
     for (int i = 0; i < 7; i++) {
         column_height[i] = 5;
@@ -20,7 +20,7 @@ Connect4::Connect4() {
     last_move = -1; 
 }
 
-// Imprimir o tabuleiro
+/// Imprimir o tabuleiro
 void Connect4::print_board() {
     cout << "  0 1 2 3 4 5 6" << endl;
     for (int i = 0; i < 6; i++) {
@@ -38,7 +38,7 @@ void Connect4::print_board() {
     }
 }
 
-// Realizar jogada
+/// Realizar jogada
 void Connect4:: read_move(Client player1, Client player2){
    
 while (true) {
@@ -90,12 +90,12 @@ while (true) {
 
 }
 
-// Testar se jogada é válida
+/// Testar se jogada é válida
 bool Connect4::is_move_valid(int move, int y) {
     return move >= 0 && move < 7 && column_height[move] >= 0;
 }
 
-// Testar vitória
+/// Testar vitória
 void Connect4::test_win_condition(Client player1, Client player2) {
     int move = last_move;
     if(move < 0 || move > 7) {
@@ -153,7 +153,7 @@ void Connect4::test_win_condition(Client player1, Client player2) {
     }
 }
 
-// Checar se o tabuleiro está cheio
+/// Checar se o tabuleiro está cheio
 bool Connect4::is_there_more_moves() {
     int filled_columns = 0;
     for (int i = 0; i < 6; i++) {
@@ -164,7 +164,7 @@ bool Connect4::is_there_more_moves() {
     return filled_columns != 6;
 }
 
-// Iniciar um jogo
+/// Iniciar um jogo
 void Connect4::play(Client player1, Client player2) {
     while (!is_game_ended) {
         print_board();

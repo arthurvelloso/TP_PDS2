@@ -1,10 +1,11 @@
+/// Board class
 #ifndef BOARD_H
 #define BOARD_H
 
 #include <iostream>
 #include "client.hpp"
 
-
+/// Classe Board
 class Board {
 private:
 
