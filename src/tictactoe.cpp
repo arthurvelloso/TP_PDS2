@@ -32,7 +32,7 @@ void Tictactoe::read_move(Client player1, Client player2) {
     while (true) {
         try {
             int position;
-            cout << "Player " << (current_player == 1 ? "1 (X)" : "2 (O)") << ", choose one position (1-9): ";
+            cout << (current_player == 1 ? player1.get_nickname() : player2.get_nickname()) << ", choose one position (1-9): ";
             cout << endl;
             
             if (!(cin >> position)) {
