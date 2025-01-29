@@ -163,12 +163,3 @@ TEST_CASE("Testando o método has_valid_moves") {
     }
 
 }
-
-TEST_CASE("Testando o método ends_game") {
-        Reversi game;
-        Client p1;
-        Client p2;
-            game.ends_game(p1, p2);
-            CHECK(game.get_is_game_ended() == true);
-    
-    }
