@@ -95,7 +95,7 @@ void remove_player(vector <Client>& clients) {
         }
         
         if(flag == 0) {
-            throw std::invalid_argument("OCCUPED POSITION, TRY AGAIN");
+            throw std::invalid_argument("There isn't a player with that nickname. Try again");
         }
     }
     catch(const std::invalid_argument& e) {

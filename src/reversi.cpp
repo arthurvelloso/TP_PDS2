@@ -66,7 +66,7 @@ void Reversi::print_board() {
 void Reversi::read_move(Client player1, Client player2) {
     while (true) {
         try {
-            cout << "Player " << (current_player == 1 ? "White" : "Black") << "'s turn" << endl;
+            cout << (current_player == 1 ? player1.get_nickname() : player2.get_nickname()) << "'s turn " << (current_player == 1 ? "(White)" : "(Black)") << endl;
             cout << "Enter row (0-7) and column (0-7) separated by space: ";
             
             int x, y;
@@ -174,7 +174,7 @@ void Reversi::test_win_condition(Client player1, Client player2) {
         cout << "End of the game" << endl;
         ends_game(player1, player2);
     } else if (!first_has_moves && second_has_moves) {
-        cout << "Player " << (current_player == -1 ? "White" : "Black") << " doesn't have valid moves. Switching players." << endl;
+        cout << (current_player == -1 ? player1.get_nickname() : player2.get_nickname()) << (current_player == 1 ? "(White)" : "(Black)") << " doesn't have valid moves. Switching players." << endl;
     }
 }
 
