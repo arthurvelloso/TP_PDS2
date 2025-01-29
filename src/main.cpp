@@ -127,7 +127,7 @@ void list_players(vector<Client> clients) {
 
 void execute_game(vector<Client> clients) {
     if (clients.size() < 2) {
-        cout << endl << "There are only " << clients.size() << " players. It must have at least two." << endl;
+        cout << endl << "There is only " << clients.size() << " players. There must have at least two players." << endl;
         return; 
     }
     
